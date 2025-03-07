@@ -918,6 +918,11 @@
         }
     </style>
 
+    <script src="https://cdn.tailwindcss.com" defer></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+
+
     <script>
         document.getElementById("callButton").addEventListener("click", function() {
             if (navigator.vibrate) {
