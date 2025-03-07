@@ -604,6 +604,31 @@
             </div>
         </section>
 
+        <!-- ✅ Sección de Imagenes de las Caracteristicas -->
+        <section id="beneficios-minisplit" class="py-20 text-center bg-gray-900 text-white">
+            <h2 class="text-4xl font-bold text-white mb-8" data-aos="fade-up">Beneficios de Nuestros Minisplits</h2>
+
+            <div class="container mx-auto grid md:grid-cols-2 gap-10">
+                <!-- Imagen de Auto-limpieza -->
+                <div data-aos="fade-right">
+                    <img src="{{ asset('img/auto-limpieza.png') }}" alt="Auto-limpieza del Minisplit"
+                        class="w-full rounded-lg shadow-lg">
+                </div>
+
+                <!-- Imagen de Características Técnicas -->
+                <div data-aos="fade-left">
+                    <img src="{{ asset('img/caracteristicas-minisplit.png') }}" alt="Detalles Técnicos del Minisplit"
+                        class="w-full rounded-lg shadow-lg">
+                </div>
+            </div>
+
+            <div class="container mx-auto mt-10" data-aos="fade-up">
+                <img src="{{ asset('img/compatibilidad-alexa-google.png') }}" alt="Compatibilidad Alexa y Google Home"
+                    class="w-full rounded-lg shadow-lg">
+            </div>
+        </section>
+
+
         <!-- ✅ Sección de Características -->
         <section id="caracteristicas" class="py-20 text-center bg-white text-black">
             <h2 class="text-4xl font-bold text-[#072BF2]" data-aos="fade-up">Características Innovadoras de AUFIT</h2>
