@@ -581,6 +581,12 @@
                 <a href="#productos" class="nav-link">Minisplits</a>
                 <a href="#paquetes-tecnicos" class="nav-link">Paquetes Técnicos</a>
                 <a href="#contacto" class="nav-link">Contacto</a>
+                <!-- Icono del carrito -->
+                <div id="cart-container" class="relative cursor-pointer">
+                    <button id="cart-button" class="text-white text-2xl">
+                        🛒 <span id="cart-count" class="bg-red-500 text-white text-sm px-2 py-1 rounded-full">0</span>
+                    </button>
+                </div>
             </nav>
 
             <!-- 🔹 Menú Hamburguesa para móviles -->
@@ -601,13 +607,6 @@
         <a href="#productos" class="nav-link">Minisplits</a>
         <a href="#paquetes-tecnicos" class="nav-link">Paquetes Técnicos</a>
         <a href="#contacto" class="nav-link">Contacto</a>
-        <!-- Icono del carrito -->
-        <div id="cart-container" class="relative cursor-pointer">
-            <button id="cart-button" class="text-white text-2xl">
-                🛒 <span id="cart-count" class="bg-red-500 text-white text-sm px-2 py-1 rounded-full">0</span>
-            </button>
-        </div>
-
     </div>
 
 
@@ -807,8 +806,8 @@
                                 class="text-green-600">$7,599</span></p>
 
                         <button
-                            class="mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg 
-                                shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95">
+                            class="buy-button mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95"
+                            data-product='{"name": "Minisplit 1 Ton", "price": 7599, "image": "img/aufit-minisplit-1ton.jpg"}'>
                             🛒 Comprar Ahora
                         </button>
                     </div>
@@ -848,8 +847,8 @@
                                 class="text-green-600">$14,900</span></p>
 
                         <button
-                            class="mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg 
-                                shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95">
+                            class="buy-button mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95"
+                            data-product='{"name": "Minisplit 2 Ton", "price": 14900, "image": "img/aufit-minisplit-2ton.jpg"}'>
                             🛒 Comprar Ahora
                         </button>
                     </div>
@@ -886,7 +885,8 @@
                         <li>🎟 Entra en rifa de 1 recuperadora de refrigerante ($9000)</li>
                     </ul>
                     <button
-                        class="mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95">
+                        class="buy-button mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95"
+                        data-product='{"name": "Minisplit 1 Ton", "price": 7599, "image": "img/aufit-minisplit-1ton.jpg"}'>
                         🛒 Comprar Ahora
                     </button>
                 </div>
@@ -903,7 +903,8 @@
                         <li>🎟 Entra en rifa de 1 kit de herramientas para tubería ($1500)</li>
                     </ul>
                     <button
-                        class="mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95">
+                        class="buy-button mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95"
+                        data-product='{"name": "Minisplit 2 Ton", "price": 14900, "image": "img/aufit-minisplit-2ton.jpg"}'>
                         🛒 Comprar Ahora
                     </button>
                 </div>
@@ -1092,7 +1093,121 @@
         window.addEventListener('scroll', function() {
             document.getElementById('navbar').classList.toggle('nav-active', window.scrollY > 50);
         });
+
+        // 📌 Codigo de manejo del carrito
+        document.addEventListener("DOMContentLoaded", function() {
+            let cartCount = localStorage.getItem("cartCount") || 0;
+            document.getElementById("cart-count").textContent = cartCount;
+        });
+
+        // Función para agregar al carrito (ejemplo)
+        function addToCart() {
+            let cartCount = parseInt(localStorage.getItem("cartCount") || "0");
+            cartCount++;
+            localStorage.setItem("cartCount", cartCount);
+            document.getElementById("cart-count").textContent = cartCount;
+        }
+
+        // Ejemplo: Llamar a esta función cuando un usuario haga clic en "Comprar Ahora"
+        document.querySelectorAll(".buy-button").forEach(button => {
+            button.addEventListener("click", addToCart);
+        });
     </script>
+
+    <!-- 🔹 Modal del carrito -->
+    <div id="cart-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-96 relative">
+            <h2 class="text-2xl font-bold text-[#072BF2] mb-4">🛒 Tu Carrito</h2>
+
+            <!-- Contenedor de productos -->
+            <div id="cart-items" class="space-y-4">
+                <p class="text-gray-600 text-center">El carrito está vacío.</p>
+            </div>
+
+            <!-- Botones -->
+            <div class="mt-4 flex justify-between">
+                <button id="close-cart" class="text-red-500 font-bold">❌ Cerrar</button>
+                <button id="checkout" class="bg-[#072BF2] text-white px-4 py-2 rounded-lg">💳 Finalizar
+                    Compra</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Recuperar carrito desde localStorage
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            // Actualizar contador al cargar la página
+            document.getElementById("cart-count").textContent = cart.length;
+
+            // Función para actualizar el contador y guardar en localStorage
+            function updateCart() {
+                localStorage.setItem("cart", JSON.stringify(cart));
+                document.getElementById("cart-count").textContent = cart.length;
+            }
+
+            // Función para agregar productos al carrito
+            function addToCart(event) {
+                let product = JSON.parse(event.target.getAttribute("data-product"));
+                cart.push(product);
+                updateCart();
+            }
+
+            // Asignar evento a todos los botones "Comprar Ahora"
+            document.querySelectorAll(".buy-button").forEach(button => {
+                button.addEventListener("click", addToCart);
+            });
+
+            // Mostrar modal del carrito
+            document.getElementById("cart-button").addEventListener("click", function() {
+                let cartItemsContainer = document.getElementById("cart-items");
+                cartItemsContainer.innerHTML = ""; // Limpiar antes de mostrar
+
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML =
+                        `<p class="text-gray-600 text-center">El carrito está vacío.</p>`;
+                } else {
+                    cart.forEach((item, index) => {
+                        cartItemsContainer.innerHTML += `
+                            <div class="flex justify-between items-center border-b pb-2">
+                                <img src="${item.image}" class="w-12 h-12 rounded-lg">
+                                <div>
+                                    <p class="text-lg font-bold">${item.name}</p>
+                                    <p class="text-gray-600">$${item.price}</p>
+                                </div>
+                                <button class="text-red-500 font-bold remove-item" data-index="${index}">❌</button>
+                            </div>`;
+                    });
+                }
+
+                document.getElementById("cart-modal").classList.remove("hidden");
+            });
+
+            // Cerrar modal del carrito
+            document.getElementById("close-cart").addEventListener("click", function() {
+                document.getElementById("cart-modal").classList.add("hidden");
+            });
+
+            // Eliminar un producto del carrito
+            document.addEventListener("click", function(event) {
+                if (event.target.classList.contains("remove-item")) {
+                    let index = event.target.getAttribute("data-index");
+                    cart.splice(index, 1);
+                    updateCart();
+                    document.getElementById("cart-button").click(); // Refrescar modal
+                }
+            });
+
+            // Finalizar compra
+            document.getElementById("checkout").addEventListener("click", function() {
+                alert("✅ ¡Compra realizada con éxito!");
+                cart = []; // Vaciar carrito
+                updateCart();
+                document.getElementById("cart-modal").classList.add("hidden");
+            });
+        });
+    </script>
+
 </body>
 
 </html>
