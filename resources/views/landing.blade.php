@@ -22,10 +22,31 @@
         }
     </style>
     <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            /* 🔹 Evita desbordamiento horizontal */
+        }
+
+        @media (max-width: 768px) {
+            #navbar {
+                padding: 15px 10px;
+                /* 🔹 Reduce padding en móvil */
+            }
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #072BF2, #4B75F2);
             color: white;
+            margin: 0;
+            /* Elimina cualquier margen por defecto */
+            padding: 0;
+            /* Elimina rellenos adicionales */
+            overflow-x: hidden;
+            /* Evita desbordamiento horizontal */
         }
 
         .nav-active {
@@ -89,22 +110,23 @@
         }
 
         #bienvenida {
-            background: url('{{ asset('img/aufit-minisplit3.png') }}') no-repeat center top;
+            background: url('{{ asset('img/aufit-minisplit4.jpg') }}') no-repeat center center;
             background-size: cover;
-            /* Ajusta el tamaño para que cubra toda la sección */
-            background-attachment: fixed;
-            /* Parallax */
-            height: 90vh;
-            /* Ajusta la altura para evitar cortar la imagen */
+            background-position: center;
+            width: 100vw;
+            height: 80vh;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
+            /* 🔹 Mueve el contenido hacia arriba */
             justify-content: center;
             text-align: center;
             color: white;
             position: relative;
-            padding: 40px 20px;
+            padding: 100px 20px 40px;
+            /* 🔹 Aumenta el padding superior para subir el contenido */
         }
 
+        /* ✅ Mejora la legibilidad del texto */
         #bienvenida::after {
             content: "";
             position: absolute;
@@ -112,45 +134,91 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.15);
-            /* Reduce el oscurecimiento */
+            background: rgba(0, 0, 0, 0.5);
+            /* 🔹 Aumenta opacidad para mayor contraste */
+            z-index: 1;
         }
 
         #bienvenida .content {
             position: relative;
             z-index: 2;
-            max-width: 85%;
+            max-width: 90%;
             text-align: center;
+            padding: 60px 20px;
+            transform: translateY(-50px);
+            /* 🔹 Mueve el texto más arriba */
         }
 
+        /* ✅ Ajustes de fuente */
         #bienvenida h2 {
-            font-size: 5rem;
+            font-size: 4rem;
             font-weight: bold;
-            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.7);
+            /* 🔹 Aumenta la sombra para mejorar la legibilidad */
         }
 
         #bienvenida p {
-            font-size: 1.8rem;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+            max-width: 800px;
+            margin: auto;
+        }
+
+        /* ✅ Optimización para móviles */
+        @media (max-width: 768px) {
+            #bienvenida {
+                height: 60vh;
+                padding: 60px 20px 20px;
+                /* 🔹 Ajusta el padding superior */
+            }
+
+            #bienvenida .content {
+                transform: translateY(-30px);
+                /* 🔹 Sube menos el texto en móvil */
+            }
+
+            #bienvenida h2 {
+                font-size: 2.5rem;
+            }
+
+            #bienvenida p {
+                font-size: 1.2rem;
+            }
+        }
+
+        #wrapper {
+            max-width: 100vw;
+            /* Evita que los elementos internos sobrepasen la pantalla */
+            overflow-x: hidden;
         }
 
         #navbar {
             position: fixed;
             top: 0;
+            left: 0;
+            /* 🔹 Evita que sobresalga */
             width: 100%;
             z-index: 50;
             padding: 15px 30px;
             background: rgba(7, 43, 242, 0.9);
-            /* Azul con transparencia */
             backdrop-filter: blur(10px);
-            /* Efecto de vidrio */
-            transition: background 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: hidden;
+            /* 🔹 Asegura que nada lo sobrepase */
         }
 
         #navbar h1 {
             font-size: 1.8rem;
             font-weight: bold;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        #navbar h1:hover {
+            transform: scale(1.05);
         }
 
         #navbar ul {
@@ -162,12 +230,62 @@
             text-decoration: none;
             font-size: 1.2rem;
             color: white;
+            position: relative;
             transition: color 0.3s ease-in-out;
+        }
+
+        #navbar ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 3px;
+            background: white;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: width 0.3s ease-in-out;
+        }
+
+        #navbar ul li a:hover::after {
+            width: 100%;
         }
 
         #navbar ul li a:hover {
             color: #B3BDF2;
-            /* Azul claro */
+        }
+
+        /* 🔹 Menú Responsive */
+        .menu-icon {
+            display: none;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .menu-icon:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            #navbar ul {
+                display: none;
+                flex-direction: column;
+                background: rgba(7, 43, 242, 0.9);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                padding: 20px;
+                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            #navbar ul.active {
+                display: flex;
+            }
+
+            .menu-icon {
+                display: block;
+            }
         }
 
         #caracteristicas {
@@ -387,6 +505,14 @@
         .benefit-card:hover li::before {
             color: #4B75F2 !important;
         }
+
+        #productos .hover:scale-105 {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        #productos .shadow-lg:hover {
+            box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 
@@ -412,17 +538,16 @@
 <body>
 
     <!-- 🔹 Barra de Navegación -->
-    <header id="navbar" class="fixed top-0 w-full z-50 p-4 bg-transparent text-white">
-        <nav class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold">LandingMinisplit</h1>
-            <ul class="hidden md:flex space-x-6">
-                <li><a href="#bienvenida" class="hover:text-[#B3BDF2]">Inicio</a></li>
-                <li><a href="#caracteristicas" class="hover:text-[#B3BDF2]">Características</a></li>
-                <li><a href="#productos" class="hover:text-[#B3BDF2]">Minisplits</a></li>
-                <li><a href="#beneficios" class="hover:text-[#B3BDF2]">Beneficios Técnicos</a></li>
-                <li><a href="#contacto" class="hover:text-[#B3BDF2]">Contacto</a></li>
-            </ul>
-        </nav>
+    <header id="navbar" class="fixed top-0 w-full z-50 text-white">
+        <h1 class="cursor-pointer">LandingMinisplit</h1>
+        <ul>
+            <li><a href="#bienvenida">Inicio</a></li>
+            <li><a href="#caracteristicas">Características</a></li>
+            <li><a href="#productos">Minisplits</a></li>
+            <li><a href="#beneficios">Paquetes de Técnicos</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
     </header>
 
     <!-- 🔹 Secciones -->
@@ -545,31 +670,94 @@
         </section>
 
         <!-- ✅ Sección de Minisplits -->
-        <section id="productos" class="py-20 text-center bg-white text-black">
-            <h2 class="text-4xl font-bold" data-aos="fade-up">Nuestros Minisplits</h2>
-            <div class="container mx-auto grid md:grid-cols-2 gap-8 mt-8">
-                <div class="card relative w-72 h-40 mx-auto" data-aos="flip-left">
-                    <div class="card-inner w-full h-full relative">
-                        <div
-                            class="card-front bg-gray-100 text-[#072BF2] flex justify-center items-center rounded-lg shadow-lg">
-                            <h3 class="text-2xl font-bold">CHI-R32-12K-110</h3>
-                        </div>
-                        <div class="card-back">
-                            <p>✅ 1 Tonelada | Frío/Calor | Inverter | 220V</p>
-                            <p class="text-sm mt-1">Oferta: <strong>$7,599</strong></p>
-                        </div>
+        <section id="productos" class="py-20 bg-white text-black">
+            <div class="container mx-auto text-center">
+                <h2 class="text-4xl font-bold text-[#072BF2]" data-aos="fade-up">Nuestros Minisplits</h2>
+                <p class="mt-2 text-lg text-gray-700" data-aos="fade-up" data-aos-delay="100">
+                    Encuentra el minisplit ideal para tu hogar o negocio con tecnología inverter, eficiencia energética
+                    y control inteligente.
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-12 mt-12">
+                    <!-- ✅ Minisplit 1 Tonelada -->
+                    <div class="bg-gray-100 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 relative"
+                        data-aos="fade-right">
+                        <img src="{{ asset('img/aufit-minisplit-1ton.jpg') }}" alt="Minisplit 1 Tonelada"
+                            class="w-full h-auto sm:h-60 object-cover rounded-lg">
+                        <h3 class="text-2xl font-bold text-[#072BF2] mt-4 text-center sm:text-left">
+                            AUFIT CHI-R32-12K-110/220
+                        </h3>
+                        <p class="text-gray-700 mt-2 text-lg text-center sm:text-left">
+                            1 Tonelada | Frío/Calor | Inverter | 110V/220V
+                        </p>
+
+                        <ul class="mt-4 text-left text-gray-700 space-y-2 text-sm sm:text-base">
+                            <li>✔️ Modulo WIFI</li>
+                            <li>✔️ Auto Limpieza</li>
+                            <li>✔️ Auto Diagnostico</li>
+                            <li>✔️ Modo: Frío y Calor </li>
+                            <li>✔️ App Movil Gratuita</li>
+                            <li>✔️ Tecnología Inverter</li>
+                            <li>✔️ Alta eficiencia energética</li>
+                            <li>✔️ Filtro de aire antibacteriano</li>
+                            <li>✔️ Eco friendly(Ahorro de Energia)</li>
+                            <li>✔️ Integración: Alexa y Google Home</li>
+                            <li>✔️ Control remoto vía App y compatible con Alexa/Google Home</li>
+                            <li>✔️ Garantía de 3 años con SYSCOM</li>
+                            <li>✔️ Garantía de unidad completa de 2 años</li>
+                            <li>✔️ Garantía del Compresor de 5 años</li>
+                            <li>✔️ Garantía de restos de Componentes de 2 años</li>
+                        </ul>
+
+                        <p class="text-xl font-bold text-[#072BF2] mt-4">Precio en oferta: <span
+                                class="text-green-600">$7,599</span></p>
+
+                        <button
+                            class="mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg 
+                                shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95">
+                            🛒 Comprar Ahora
+                        </button>
                     </div>
-                </div>
-                <div class="card relative w-72 h-40 mx-auto" data-aos="flip-right">
-                    <div class="card-inner w-full h-full relative">
-                        <div
-                            class="card-front bg-gray-100 text-[#072BF2] flex justify-center items-center rounded-lg shadow-lg">
-                            <h3 class="text-2xl font-bold">CHI-R32-24K-220</h3>
-                        </div>
-                        <div class="card-back">
-                            <p>✅ 2 Toneladas | Frío/Calor | Inverter | 220V</p>
-                            <p class="text-sm mt-1">Oferta: <strong>$14,999</strong></p>
-                        </div>
+
+                    <!-- ✅ Minisplit 2 Toneladas -->
+                    <div class="bg-gray-100 p-6 rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 relative"
+                        data-aos="fade-left">
+                        <img src="{{ asset('img/aufit-minisplit-2ton.jpg') }}" alt="Minisplit 2 Tonelada"
+                            class="w-full h-auto sm:h-60 object-cover rounded-lg">
+                        <h3 class="text-2xl font-bold text-[#072BF2] mt-4 text-center sm:text-left">
+                            AUFIT CHI-R32-24K-220
+                        </h3>
+                        <p class="text-gray-700 mt-2 text-lg text-center sm:text-left">
+                            2 Toneladas | Frío/Calor | Inverter | 220V
+                        </p>
+
+
+                        <ul class="mt-4 text-left text-gray-700 space-y-2 text-sm sm:text-base">
+                            <li>✔️ Modulo WIFI</li>
+                            <li>✔️ Auto Limpieza</li>
+                            <li>✔️ Auto Diagnostico</li>
+                            <li>✔️ Modo: Frío y Calor </li>
+                            <li>✔️ App Movil Gratuita</li>
+                            <li>✔️ Tecnología Inverter</li>
+                            <li>✔️ Alta eficiencia energética</li>
+                            <li>✔️ Filtro de aire antibacteriano</li>
+                            <li>✔️ Eco friendly(Ahorro de Energia)</li>
+                            <li>✔️ Integración: Alexa y Google Home</li>
+                            <li>✔️ Control remoto vía App y compatible con Alexa/Google Home</li>
+                            <li>✔️ Garantía de 3 años con SYSCOM</li>
+                            <li>✔️ Garantía de unidad completa de 2 años</li>
+                            <li>✔️ Garantía del Compresor de 5 años</li>
+                            <li>✔️ Garantía de restos de Componentes de 2 años</li>
+                        </ul>
+
+                        <p class="text-xl font-bold text-[#072BF2] mt-4">Precio en oferta: <span
+                                class="text-green-600">$14,900</span></p>
+
+                        <button
+                            class="mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg 
+                                shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95">
+                            🛒 Comprar Ahora
+                        </button>
                     </div>
                 </div>
             </div>
@@ -604,7 +792,7 @@
                         <li>🎟 Entra en rifa de 1 recuperadora de refrigerante ($9000)</li>
                     </ul>
                     <button
-                        class="mt-6 w-full py-3 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 hover:scale-105 transition">
+                        class="mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95">
                         🛒 Comprar Ahora
                     </button>
                 </div>
@@ -621,25 +809,130 @@
                         <li>🎟 Entra en rifa de 1 kit de herramientas para tubería ($1500)</li>
                     </ul>
                     <button
-                        class="mt-6 w-full py-3 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 hover:scale-105 transition">
+                        class="mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95">
                         🛒 Comprar Ahora
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- ✅ Sección Contacto -->
-        <section id="contacto" class="h-screen flex items-center justify-center">
-            <div class="text-center">
-                <h2 class="text-4xl font-bold" data-aos="fade-up">Contacto</h2>
-                <p class="mt-4 text-lg">¡Envíanos tus dudas o cotizaciones!</p>
-                <input type="email" placeholder="Tu correo..." class="p-2 mt-4 rounded bg-white text-black">
-                <button class="px-6 py-2 bg-[#072BF2] text-white rounded-lg shadow-md hover:bg-[#4B75F2] transition">
-                    Enviar
-                </button>
+        <!-- ✅ Sección Mejorada de Contacto -->
+        <section id="contacto" class="h-screen flex items-center justify-center relative overflow-hidden">
+            <!-- Fondo Animado -->
+            <div id="background-animation" class="absolute inset-0 z-0"></div>
+
+            <!-- Contenedor Principal -->
+            <div
+                class="relative z-10 max-w-lg w-full bg-white bg-opacity-10 backdrop-blur-lg rounded-xl shadow-2xl p-8 animate-fade-in">
+                <h2 class="text-3xl font-bold text-center text-white drop-shadow-lg">¿Tienes dudas o cotizaciones?</h2>
+                <p class="text-center text-gray-200 mt-2">Déjanos tu información y te responderemos en breve.</p>
+
+                <!-- Formulario FUNCIONAL -->
+                <form action="{{ route('contacto.store') }}" method="POST" class="mt-6 space-y-4">
+                    @csrf
+                    <input type="text" name="nombre" placeholder="Tu Nombre" required
+                        class="w-full p-3 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 outline-none focus:ring-2 focus:ring-blue-400">
+
+                    <input type="email" name="correo" placeholder="Tu Correo" required
+                        class="w-full p-3 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 outline-none focus:ring-2 focus:ring-blue-400">
+
+                    <textarea name="mensaje" placeholder="Tu Mensaje" rows="4" required
+                        class="w-full p-3 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+
+                    <button type="submit"
+                        class="w-full p-3 bg-blue-600 hover:bg-blue-700 transition-all duration-300 text-white font-bold rounded-lg shadow-lg transform hover:scale-105 active:scale-95">
+                        ✉️ Enviar Mensaje
+                    </button>
+                </form>
+
+                <!-- ✅ Mostrar mensaje de éxito -->
+                @if (session('success'))
+                    <p class="text-green-400 text-center mt-4">{{ session('success') }}</p>
+                @endif
+
+                <!-- Opción de Llamada Directa -->
+                <div class="mt-6 text-center">
+                    <p class="text-gray-300">¿Prefieres hablar directamente?</p>
+                    <a href="https://eldeseo.a.gdms.cloud/click2call?from_user=webrtc_trunk_1&to_user=service"
+                        id="callButton"
+                        class="mt-2 inline-block w-full p-3 bg-green-500 hover:bg-green-600 transition-all duration-300 text-white font-bold rounded-lg shadow-lg transform hover:scale-105 active:scale-95">
+                        📞 Llamar Ahora
+                    </a>
+                </div>
             </div>
         </section>
+
     </main>
+
+    <!-- Animación de entrada -->
+    <style>
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fade-in 1s ease-out;
+        }
+
+        @keyframes pulse {
+            from {
+                opacity: 0.6;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+
+    <script>
+        document.getElementById("callButton").addEventListener("click", function() {
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]); // 🔹 Vibración en móviles
+            }
+        });
+    </script>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('#navbar ul').classList.toggle('active');
+        }
+
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(7, 43, 242, 0.95)';
+                navbar.style.boxShadow = '0px 4px 10px rgba(0, 0, 0, 0.3)';
+            } else {
+                navbar.style.background = 'rgba(7, 43, 242, 0.9)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+    </script>
+
+    <!-- Script para Fondo Animado -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const background = document.getElementById("background-animation");
+            background.style.background = "radial-gradient(circle, rgba(7,43,242,0.4) 0%, rgba(0,0,0,0) 70%)";
+            background.style.animation = "pulse 6s infinite alternate";
+        });
+
+        // Efecto de vibración en móvil para botón de llamada
+        document.getElementById("callButton").addEventListener("click", function() {
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]);
+            }
+        });
+    </script>
 
     <!-- AOS y GSAP -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
