@@ -5,17 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LandingMinisplit</title>
-
-    <!-- TailwindCSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- AOS Animaciones -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <!-- GSAP para animaciones avanzadas -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <!-- Iconos -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <!-- Fuente Moderna -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         #bienvenida {
             background: url("{{ asset('img/aufit-minisplit.jpg') }}") no-repeat center center/cover;
@@ -540,35 +529,35 @@
         #beneficios-minisplit {
             display: block !important;
         }
+
+        /*  Animación de entrada  */
+        >@keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fade-in 1s ease-out;
+        }
+
+        @keyframes pulse {
+            from {
+                opacity: 0.6;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
-
-<!-- Splide.js para el carrusel -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@3/dist/css/splide.min.css">
-<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3/dist/js/splide.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        new Splide("#videoCarousel", {
-            type: "loop",
-            perPage: 1,
-            autoplay: true,
-            interval: 5000,
-            pauseOnHover: false,
-            pauseOnFocus: false,
-            arrows: true,
-            pagination: true,
-            speed: 800,
-        }).mount();
-    });
-</script>
-
-<script>
-    function toggleMenu() {
-        document.querySelector('#navbar ul').classList.toggle('active');
-    }
-</script>
-
-
 
 <body>
 
@@ -611,37 +600,7 @@
         <a href="#contacto" class="nav-link">Contacto</a>
     </div>
 
-    <!-- 🔹 Script para el menú -->
-    <script>
-        document.getElementById("menu-toggle").addEventListener("click", function() {
-            let menu = document.getElementById("mobile-menu");
-            menu.classList.remove("hidden");
-            setTimeout(() => {
-                menu.classList.remove("opacity-0", "scale-95");
-                menu.classList.add("opacity-100", "scale-100");
-            }, 10);
-        });
 
-        document.getElementById("close-menu").addEventListener("click", function() {
-            let menu = document.getElementById("mobile-menu");
-            menu.classList.remove("opacity-100", "scale-100");
-            menu.classList.add("opacity-0", "scale-95");
-            setTimeout(() => {
-                menu.classList.add("hidden");
-            }, 300);
-        });
-
-        document.querySelectorAll("#mobile-menu .nav-link").forEach(link => {
-            link.addEventListener("click", () => {
-                let menu = document.getElementById("mobile-menu");
-                menu.classList.remove("opacity-100", "scale-100");
-                menu.classList.add("opacity-0", "scale-95");
-                setTimeout(() => {
-                    menu.classList.add("hidden");
-                }, 300);
-            });
-        });
-    </script>
 
     <!-- 🔹 Secciones -->
     <main class="pt-24">
@@ -1019,20 +978,45 @@
         }
     </style>
 
+    <!-- ✅ Mover scripts al final para optimizar carga -->
     <script src="https://cdn.tailwindcss.com" defer></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous" defer></script>
 
+
+    <!-- AOS y GSAP -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+    <!-- Splide.js para el carrusel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@3/dist/css/splide.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3/dist/js/splide.min.js"></script>
 
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            new Splide("#videoCarousel", {
+                type: "loop",
+                perPage: 1,
+                autoplay: true,
+                interval: 5000,
+                pauseOnHover: false,
+                pauseOnFocus: false,
+                arrows: true,
+                pagination: true,
+                speed: 800,
+            }).mount();
+        });
+
+        function toggleMenu() {
+            document.querySelector('#navbar ul').classList.toggle('active');
+        }
+
         document.getElementById("callButton").addEventListener("click", function() {
             if (navigator.vibrate) {
                 navigator.vibrate([100, 50, 100]); // 🔹 Vibración en móviles
             }
         });
-    </script>
 
-    <script>
         function toggleMenu() {
             document.querySelector('#navbar ul').classList.toggle('active');
         }
@@ -1047,10 +1031,9 @@
                 navbar.style.boxShadow = 'none';
             }
         });
-    </script>
 
-    <!-- Script para Fondo Animado -->
-    <script>
+        //Script para Fondo Animado
+
         document.addEventListener("DOMContentLoaded", function() {
             const background = document.getElementById("background-animation");
             background.style.background = "radial-gradient(circle, rgba(7,43,242,0.4) 0%, rgba(0,0,0,0) 70%)";
@@ -1063,17 +1046,43 @@
                 navigator.vibrate([100, 50, 100]);
             }
         });
-    </script>
 
-    <!-- AOS y GSAP -->
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script>
+        // <!--🔹Script para el menú-- >
+        document.getElementById("menu-toggle").addEventListener("click", function() {
+            let menu = document.getElementById("mobile-menu");
+            menu.classList.remove("hidden");
+            setTimeout(() => {
+                menu.classList.remove("opacity-0", "scale-95");
+                menu.classList.add("opacity-100", "scale-100");
+            }, 10);
+        });
+
+        document.getElementById("close-menu").addEventListener("click", function() {
+            let menu = document.getElementById("mobile-menu");
+            menu.classList.remove("opacity-100", "scale-100");
+            menu.classList.add("opacity-0", "scale-95");
+            setTimeout(() => {
+                menu.classList.add("hidden");
+            }, 300);
+        });
+
+        document.querySelectorAll("#mobile-menu .nav-link").forEach(link => {
+            link.addEventListener("click", () => {
+                let menu = document.getElementById("mobile-menu");
+                menu.classList.remove("opacity-100", "scale-100");
+                menu.classList.add("opacity-0", "scale-95");
+                setTimeout(() => {
+                    menu.classList.add("hidden");
+                }, 300);
+            });
+        });
+
         AOS.init();
+
         window.addEventListener('scroll', function() {
             document.getElementById('navbar').classList.toggle('nav-active', window.scrollY > 50);
         });
     </script>
-
 </body>
 
 </html>
