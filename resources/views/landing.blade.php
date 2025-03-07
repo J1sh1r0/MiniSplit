@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LandingMinisplit</title>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
         #bienvenida {
             background: url("{{ asset('img/aufit-minisplit.jpg') }}") no-repeat center center/cover;
@@ -598,13 +601,20 @@
         <a href="#productos" class="nav-link">Minisplits</a>
         <a href="#paquetes-tecnicos" class="nav-link">Paquetes Técnicos</a>
         <a href="#contacto" class="nav-link">Contacto</a>
+        <!-- Icono del carrito -->
+        <div id="cart-container" class="relative cursor-pointer">
+            <button id="cart-button" class="text-white text-2xl">
+                🛒 <span id="cart-count" class="bg-red-500 text-white text-sm px-2 py-1 rounded-full">0</span>
+            </button>
+        </div>
+
     </div>
 
 
 
     <!-- 🔹 Secciones -->
     <main class="pt-24">
-        <section id="bienvenida">
+        <section id="bienvenida" data-aos="fade-up">
             <div class="content">
                 <h2 class="text-6xl font-bold" data-aos="fade-up">Bienvenidos</h2>
                 <p class="mt-4 text-lg" data-aos="fade-up" data-aos-delay="200">
@@ -993,6 +1003,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3/dist/js/splide.min.js"></script>
 
     <script>
+        AOS.init();
+
         document.addEventListener("DOMContentLoaded", function() {
             new Splide("#videoCarousel", {
                 type: "loop",
@@ -1076,8 +1088,6 @@
                 }, 300);
             });
         });
-
-        AOS.init();
 
         window.addEventListener('scroll', function() {
             document.getElementById('navbar').classList.toggle('nav-active', window.scrollY > 50);
