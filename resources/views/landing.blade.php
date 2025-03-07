@@ -49,6 +49,27 @@
             /* Evita desbordamiento horizontal */
         }
 
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -4px;
+            width: 0%;
+            height: 3px;
+            background: white;
+            transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
         .nav-active {
             backdrop-filter: blur(10px);
             background: rgba(7, 43, 242, 0.8);
@@ -196,20 +217,21 @@
             position: fixed;
             top: 0;
             left: 0;
-            /* 🔹 Evita que sobresalga */
             width: 100%;
             z-index: 50;
-            padding: 15px 30px;
-            background: rgba(7, 43, 242, 0.9);
+            padding: 15px 40px;
+            background: linear-gradient(to right, #072BF2, #4B75F2);
+            /* ✅ MODIFICADO */
             backdrop-filter: blur(10px);
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            /* ✅ Agrega este para el difuminado */
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+            /* ✅ Agrega este para la sombra */
             display: flex;
             justify-content: space-between;
             align-items: center;
             overflow: hidden;
-            /* 🔹 Asegura que nada lo sobrepase */
         }
+
 
         #navbar h1 {
             font-size: 1.8rem;
@@ -223,13 +245,11 @@
 
         #navbar ul {
             display: flex;
-            gap: 20px;
+            gap: 25px;
+            /* ✅ MODIFICADO */
         }
 
         #navbar ul li a {
-            text-decoration: none;
-            font-size: 1.2rem;
-            color: white;
             position: relative;
             transition: color 0.3s ease-in-out;
         }
@@ -243,12 +263,14 @@
             bottom: -5px;
             left: 50%;
             transform: translateX(-50%);
-            transition: width 0.3s ease-in-out;
+            transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
         }
 
         #navbar ul li a:hover::after {
             width: 100%;
+            left: 0;
         }
+
 
         #navbar ul li a:hover {
             color: #B3BDF2;
@@ -267,6 +289,10 @@
         }
 
         @media (max-width: 768px) {
+            .menu-icon {
+                display: block;
+            }
+
             #navbar ul {
                 display: none;
                 flex-direction: column;
@@ -281,10 +307,6 @@
 
             #navbar ul.active {
                 display: flex;
-            }
-
-            .menu-icon {
-                display: block;
             }
         }
 
@@ -513,6 +535,11 @@
         #productos .shadow-lg:hover {
             box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.2);
         }
+
+        #videos,
+        #beneficios-minisplit {
+            display: block !important;
+        }
     </style>
 </head>
 
@@ -535,20 +562,86 @@
     });
 </script>
 
+<script>
+    function toggleMenu() {
+        document.querySelector('#navbar ul').classList.toggle('active');
+    }
+</script>
+
+
+
 <body>
 
-    <!-- 🔹 Barra de Navegación -->
-    <header id="navbar" class="fixed top-0 w-full z-50 text-white">
-        <h1 class="cursor-pointer">LandingMinisplit</h1>
-        <ul>
-            <li><a href="#bienvenida">Inicio</a></li>
-            <li><a href="#caracteristicas">Características</a></li>
-            <li><a href="#productos">Minisplits</a></li>
-            <li><a href="#beneficios">Paquetes de Técnicos</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-        </ul>
-        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+    <!-- 🔹 Barra de Navegación Mejorada -->
+    <header id="navbar"
+        class="fixed top-0 w-full z-50 bg-gradient-to-r from-[#072BF2] to-[#4B75F2] shadow-lg backdrop-blur-lg transition-all duration-300">
+        <div class="container mx-auto flex justify-between items-center py-3 px-8">
+
+            <!-- 🔹 Logo -->
+            <h1 class="text-2xl font-bold text-white cursor-pointer tracking-wide">LandingMinisplit</h1>
+
+            <!-- 🔹 Menú de Navegación -->
+            <nav class="flex flex-col md:flex-row md:space-x-6 text-white">
+                <a href="#bienvenida" class="nav-link">Inicio</a>
+                <a href="#videos" class="nav-link">Videos Destacados</a>
+                <a href="#beneficios-minisplit" class="nav-link">Beneficios</a>
+                <a href="#caracteristicas" class="nav-link">Características</a>
+                <a href="#productos" class="nav-link">Minisplits</a>
+                <a href="#paquetes-tecnicos" class="nav-link">Paquetes Técnicos</a>
+                <a href="#contacto" class="nav-link">Contacto</a>
+            </nav>
+
+            <!-- 🔹 Menú Hamburguesa para móviles -->
+            <div class="md:hidden flex items-center">
+                <button id="menu-toggle" class="text-3xl text-white focus:outline-none">☰</button>
+            </div>
+        </div>
     </header>
+
+    <!-- 🔹 Menú móvil -->
+    <div id="mobile-menu"
+        class="hidden fixed inset-0 bg-black bg-opacity-90 flex flex-col justify-center items-center text-white space-y-6 text-2xl overflow-y-auto">
+        <button id="close-menu" class="absolute top-5 right-5 text-3xl">✖</button>
+        <a href="#bienvenida" class="nav-link">Inicio</a>
+        <a href="#videos" class="nav-link">Videos Destacados</a>
+        <a href="#beneficios-minisplit" class="nav-link">Beneficios</a>
+        <a href="#caracteristicas" class="nav-link">Características</a>
+        <a href="#productos" class="nav-link">Minisplits</a>
+        <a href="#paquetes-tecnicos" class="nav-link">Paquetes Técnicos</a>
+        <a href="#contacto" class="nav-link">Contacto</a>
+    </div>
+
+    <!-- 🔹 Script para el menú -->
+    <script>
+        document.getElementById("menu-toggle").addEventListener("click", function() {
+            let menu = document.getElementById("mobile-menu");
+            menu.classList.remove("hidden");
+            setTimeout(() => {
+                menu.classList.remove("opacity-0", "scale-95");
+                menu.classList.add("opacity-100", "scale-100");
+            }, 10);
+        });
+
+        document.getElementById("close-menu").addEventListener("click", function() {
+            let menu = document.getElementById("mobile-menu");
+            menu.classList.remove("opacity-100", "scale-100");
+            menu.classList.add("opacity-0", "scale-95");
+            setTimeout(() => {
+                menu.classList.add("hidden");
+            }, 300);
+        });
+
+        document.querySelectorAll("#mobile-menu .nav-link").forEach(link => {
+            link.addEventListener("click", () => {
+                let menu = document.getElementById("mobile-menu");
+                menu.classList.remove("opacity-100", "scale-100");
+                menu.classList.add("opacity-0", "scale-95");
+                setTimeout(() => {
+                    menu.classList.add("hidden");
+                }, 300);
+            });
+        });
+    </script>
 
     <!-- 🔹 Secciones -->
     <main class="pt-24">
@@ -561,8 +654,8 @@
             </div>
         </section>
 
-        <!-- ✅ Sección de Videos -->
-        <section id="videos" class="py-16">
+        <!-- ✅ Sección de Videos Destacados -->
+        <section id="videos" class="py-16 bg-gray-100 text-black">
             <div class="container mx-auto text-center">
                 <h2 class="text-4xl font-bold text-[#072BF2] mb-8" data-aos="fade-up">Videos Destacados</h2>
                 <div class="relative w-full max-w-5xl mx-auto" data-aos="zoom-in">
@@ -571,29 +664,31 @@
                             <ul class="splide__list">
                                 <li class="splide__slide">
                                     <div class="video-container relative">
-                                        <iframe src="https://www.youtube.com/embed/6c_dtwRVQNo?start=199"
+                                        <iframe width="100%" height="500"
+                                            src="https://www.youtube.com/embed/6c_dtwRVQNo?start=199"
                                             allowfullscreen></iframe>
                                         <div class="video-overlay"></div>
                                     </div>
                                 </li>
                                 <li class="splide__slide">
                                     <div class="video-container relative">
-                                        <iframe src="https://www.youtube.com/embed/E2MXFU7SNAI"
+                                        <iframe width="100%" height="500"
+                                            src="https://www.youtube.com/embed/E2MXFU7SNAI" allowfullscreen></iframe>
+                                        <div class="video-overlay"></div>
+                                    </div>
+                                </li>
+                                <li class="splide__slide">
+                                    <div class="video-container relative">
+                                        <iframe width="100%" height="500"
+                                            src="https://www.youtube.com/embed/YqutiGHpQpE?start=1"
                                             allowfullscreen></iframe>
                                         <div class="video-overlay"></div>
                                     </div>
                                 </li>
                                 <li class="splide__slide">
                                     <div class="video-container relative">
-                                        <iframe src="https://www.youtube.com/embed/YqutiGHpQpE?start=1"
-                                            allowfullscreen></iframe>
-                                        <div class="video-overlay"></div>
-                                    </div>
-                                </li>
-                                <li class="splide__slide">
-                                    <div class="video-container relative">
-                                        <iframe src="https://www.youtube.com/embed/PDR0STxMQ-Q"
-                                            allowfullscreen></iframe>
+                                        <iframe width="100%" height="500"
+                                            src="https://www.youtube.com/embed/PDR0STxMQ-Q" allowfullscreen></iframe>
                                         <div class="video-overlay"></div>
                                     </div>
                                 </li>
@@ -604,7 +699,7 @@
             </div>
         </section>
 
-        <!-- ✅ Sección de Imagenes de las Caracteristicas -->
+        <!-- ✅ Sección Beneficios de los Minisplits -->
         <section id="beneficios-minisplit" class="py-20 text-center bg-gray-900 text-white">
             <h2 class="text-4xl font-bold text-white mb-8" data-aos="fade-up">Beneficios de Nuestros Minisplits</h2>
 
@@ -628,17 +723,18 @@
             </div>
         </section>
 
-
         <!-- ✅ Sección de Características -->
         <section id="caracteristicas" class="py-20 text-center bg-white text-black">
-            <h2 class="text-4xl font-bold text-[#072BF2]" data-aos="fade-up">Características Innovadoras de AUFIT</h2>
+            <h2 class="text-4xl font-bold text-[#072BF2]" data-aos="fade-up">Características Innovadoras de AUFIT
+            </h2>
             <div class="container mx-auto grid md:grid-cols-3 gap-8 mt-8">
                 <!-- Tarjeta 1: Tecnología Inverter -->
                 <div
                     class="feature-card bg-gradient-to-b from-white to-gray-100 p-6 rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-2 flex flex-col items-center text-center">
                     <img src="{{ asset('img/icono-inverter.png') }}" alt="Inverter" class="w-20 h-20">
                     <h3 class="text-2xl font-bold mt-4 text-[#072BF2]">Tecnología Inverter</h3>
-                    <p class="mt-2 text-gray-700">Ahorra hasta un 40% en consumo eléctrico y proporciona un enfriamiento
+                    <p class="mt-2 text-gray-700">Ahorra hasta un 40% en consumo eléctrico y proporciona un
+                        enfriamiento
                         más eficiente.</p>
                 </div>
 
@@ -647,7 +743,8 @@
                     class="feature-card bg-gradient-to-b from-white to-gray-100 p-6 rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-2 flex flex-col items-center text-center">
                     <img src="{{ asset('img/icono-autolimpieza.png') }}" alt="Auto Limpieza" class="w-20 h-20">
                     <h3 class="text-2xl font-bold mt-4 text-[#072BF2]">Auto Limpieza</h3>
-                    <p class="mt-2 text-gray-700">Previene la acumulación de bacterias y moho, garantizando aire limpio
+                    <p class="mt-2 text-gray-700">Previene la acumulación de bacterias y moho, garantizando aire
+                        limpio
                         y saludable.</p>
                 </div>
 
@@ -656,7 +753,9 @@
                     class="feature-card bg-gradient-to-b from-white to-gray-100 p-6 rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-2 flex flex-col items-center text-center">
                     <img src="{{ asset('img/icono-filtro.png') }}" alt="Purificación" class="w-20 h-20">
                     <h3 class="text-2xl font-bold mt-4 text-[#072BF2]">Filtro de Aire Antibacterial</h3>
-                    <p class="mt-2 text-gray-700">Filtra partículas PM2.5, eliminando bacterias y virus para un aire más
+                    <p class="mt-2 text-gray-700">Filtra partículas PM2.5, eliminando bacterias y virus para un
+                        aire
+                        más
                         saludable.</p>
                 </div>
             </div>
@@ -699,7 +798,8 @@
             <div class="container mx-auto text-center">
                 <h2 class="text-4xl font-bold text-[#072BF2]" data-aos="fade-up">Nuestros Minisplits</h2>
                 <p class="mt-2 text-lg text-gray-700" data-aos="fade-up" data-aos-delay="100">
-                    Encuentra el minisplit ideal para tu hogar o negocio con tecnología inverter, eficiencia energética
+                    Encuentra el minisplit ideal para tu hogar o negocio con tecnología inverter, eficiencia
+                    energética
                     y control inteligente.
                 </p>
 
@@ -849,7 +949,8 @@
             <!-- Contenedor Principal -->
             <div
                 class="relative z-10 max-w-lg w-full bg-white bg-opacity-10 backdrop-blur-lg rounded-xl shadow-2xl p-8 animate-fade-in">
-                <h2 class="text-3xl font-bold text-center text-white drop-shadow-lg">¿Tienes dudas o cotizaciones?</h2>
+                <h2 class="text-3xl font-bold text-center text-white drop-shadow-lg">¿Tienes dudas o cotizaciones?
+                </h2>
                 <p class="text-center text-gray-200 mt-2">Déjanos tu información y te responderemos en breve.</p>
 
                 <!-- Formulario FUNCIONAL -->
