@@ -22,6 +22,11 @@
             /* 🔹 Evita desbordamiento horizontal */
         }
 
+        .container {
+            max-width: 100%;
+            padding: 10px;
+        }
+
         @media (max-width: 768px) {
             #navbar {
                 padding: 15px 10px;
@@ -29,7 +34,9 @@
             }
         }
 
+        /* General */
         body {
+            font-family: 'Poppins', sans-serif;
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #072BF2, #4B75F2);
             color: white;
@@ -120,6 +127,23 @@
 
         .bg-gradient-to-b {
             background: linear-gradient(to bottom, white, #E5E7EB);
+        }
+
+        @media (max-width: 768px) {
+            #navbar {
+                flex-direction: column;
+                padding: 10px 15px;
+            }
+
+            .nav-link {
+                display: block;
+                padding: 10px 0;
+            }
+
+            .feature-card {
+                flex-direction: column;
+                text-align: center;
+            }
         }
 
         #bienvenida {
@@ -559,6 +583,142 @@
                 opacity: 1;
             }
         }
+
+        /* Contenedor del modal */
+        #cart-modal {
+            backdrop-filter: blur(8px);
+        }
+
+        /* Estilos del formulario */
+        #payment-form input {
+            border: 2px solid #d1d5db;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        #payment-form input:focus {
+            border-color: #4B75F2;
+            box-shadow: 0px 0px 8px rgba(75, 117, 242, 0.4);
+            outline: none;
+        }
+
+        /* Campo de verificación para técnicos */
+        #technician-fields {
+            background: rgba(75, 117, 242, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 4px solid #4B75F2;
+        }
+
+        #technician-fields label {
+            font-weight: bold;
+            color: #4B75F2;
+        }
+
+        /* Botón "¿Eres técnico?" */
+        #toggleTechnician {
+            display: block;
+            text-align: center;
+            color: #4B75F2;
+            cursor: pointer;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        #toggleTechnician:hover {
+            color: #3451b6;
+            text-decoration: underline;
+        }
+
+        /* Botón de compra */
+        #cart-modal .btn-primary {
+            background: #22c55e;
+            color: white;
+            font-weight: bold;
+            padding: 14px;
+            border-radius: 8px;
+            text-align: center;
+            transition: background 0.3s ease;
+            width: 100%;
+        }
+
+        #cart-modal .btn-primary:hover {
+            background: #16a34a;
+        }
+
+        /* Carrito de compras */
+        .productos-seleccionados {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Productos en carrito */
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-radius: 8px;
+            background: #f9fafb;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 8px;
+        }
+
+        .product-item img {
+            width: 60px;
+            height: auto;
+            border-radius: 6px;
+            border: 2px solid #ddd;
+        }
+
+        /* Botones de cantidad */
+        .quantity-controls button {
+            border: none;
+            background: transparent;
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .quantity-controls button:hover {
+            color: #4B75F2;
+        }
+
+        /* Precio final */
+        .total-container {
+            text-align: right;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        #cart-modal button.close-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: #dc2626;
+            /* Rojo fuerte */
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, background 0.3s ease;
+        }
+
+        #cart-modal button.close-btn:hover {
+            background-color: #b91c1c;
+            /* Rojo más oscuro */
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -573,7 +733,7 @@
             <h1 class="text-2xl font-bold text-white cursor-pointer tracking-wide">LandingMinisplit</h1>
 
             <!-- 🔹 Menú de Navegación -->
-            <nav class="flex flex-col md:flex-row md:space-x-6 text-white">
+            <nav class="hidden md:flex flex-col md:flex-row md:space-x-6 text-white">
                 <a href="#bienvenida" class="nav-link">Inicio</a>
                 <a href="#videos" class="nav-link">Videos Destacados</a>
                 <a href="#beneficios-minisplit" class="nav-link">Beneficios</a>
@@ -635,6 +795,22 @@
                                         <iframe width="100%" height="500"
                                             src="https://www.youtube.com/embed/6c_dtwRVQNo?start=199"
                                             allowfullscreen></iframe>
+                                        <div class="video-overlay"></div>
+                                    </div>
+                                </li>
+                                <!-- 🔹 Nuevo Video en Posición 2 -->
+                                <li class="splide__slide">
+                                    <div class="video-container relative">
+                                        <iframe width="100%" height="500"
+                                            src="https://www.youtube.com/embed/T1_iRhkI3kw" allowfullscreen></iframe>
+                                        <div class="video-overlay"></div>
+                                    </div>
+                                </li>
+                                <!-- 🔹 Nuevo Video en Posición 3 -->
+                                <li class="splide__slide">
+                                    <div class="video-container relative">
+                                        <iframe width="100%" height="500"
+                                            src="https://www.youtube.com/embed/BdzAUdm6IC8" allowfullscreen></iframe>
                                         <div class="video-overlay"></div>
                                     </div>
                                 </li>
@@ -858,7 +1034,7 @@
 
         <!-- ✅ Sección Paquetes para Técnicos -->
         <section id="paquetes-tecnicos" class="py-20 text-center bg-gray-50">
-            <h2 class="text-4xl font-bold text-[#072BF2]" data-aos="fade-up">Paquetes para Técnicos</h2>
+            <h2 class="text-4xl font-bold text-[#072BF2]" data-aos="fade-up">Beneficios para Técnicos</h2>
 
             <!-- 🔹 Confirmación de Video -->
             <div
@@ -868,21 +1044,17 @@
                     Para acceder a los beneficios, debes subir un video mostrando tu equipo de trabajo
                     (bandas de vacío, manómetros, herramientas, etc.).
                 </p>
-                <button
-                    class="mt-4 px-6 py-3 bg-[#072BF2] text-white font-semibold rounded-lg shadow-md hover:bg-[#4B75F2] hover:scale-105 transition">
-                    📤 Subir Video
-                </button>
             </div>
 
             <div class="container mx-auto grid md:grid-cols-2 gap-10 mt-12">
                 <!-- ✅ Paquete 2 Equipos -->
                 <div class="benefit-card relative p-8 rounded-xl shadow-lg transition transform hover:-translate-y-2 hover:shadow-2xl bg-gradient-to-b from-white to-gray-100"
                     data-aos="fade-right">
-                    <h3 class="text-3xl font-bold text-[#072BF2]">Paquete 2 Equipos</h3>
+                    <h3 class="text-3xl font-bold text-[#072BF2]">Comprando 2 Equipos</h3>
                     <p class="mt-4 text-lg text-gray-700">Obtienes los siguientes beneficios:</p>
                     <ul class="mt-4 text-left text-gray-600">
                         <li>✅ Gratis 1 sacabocado para pared ($500)</li>
-                        <li>🎟 Entra en rifa de 1 recuperadora de refrigerante ($9000)</li>
+                        <li>🎟 Entra en rifa de 1 recuperadora de refrigerante ($13000)</li>
                     </ul>
                     <button
                         class="buy-button mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95"
@@ -894,11 +1066,11 @@
                 <!-- ✅ Paquete 3 Equipos -->
                 <div class="benefit-card relative p-8 rounded-xl shadow-lg transition transform hover:-translate-y-2 hover:shadow-2xl bg-gradient-to-b from-white to-gray-100"
                     data-aos="fade-left">
-                    <h3 class="text-3xl font-bold text-[#072BF2]">Paquete 3 Equipos</h3>
+                    <h3 class="text-3xl font-bold text-[#072BF2]">Comprando 3 Equiposo más</h3>
                     <p class="mt-4 text-lg text-gray-700">Obtienes los siguientes beneficios:</p>
                     <ul class="mt-4 text-left text-gray-600">
                         <li>✅ Gratis 2 sacabocados para pared ($1000)</li>
-                        <li>🎟 Entra en rifa de 1 recuperadora de refrigerante ($9000)</li>
+                        <li>🎟 Entra en rifa de 1 recuperadora de refrigerante ($13000)</li>
                         <li>🎟 Entra en rifa de 1 kit de manómetros especiales ($1900)</li>
                         <li>🎟 Entra en rifa de 1 kit de herramientas para tubería ($1500)</li>
                     </ul>
@@ -1003,6 +1175,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@3/dist/css/splide.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3/dist/js/splide.min.js"></script>
 
+    <!-- Scrip 4-->
     <script>
         AOS.init();
 
@@ -1093,121 +1266,382 @@
         window.addEventListener('scroll', function() {
             document.getElementById('navbar').classList.toggle('nav-active', window.scrollY > 50);
         });
-
-        // 📌 Codigo de manejo del carrito
-        document.addEventListener("DOMContentLoaded", function() {
-            let cartCount = localStorage.getItem("cartCount") || 0;
-            document.getElementById("cart-count").textContent = cartCount;
-        });
-
-        // Función para agregar al carrito (ejemplo)
-        function addToCart() {
-            let cartCount = parseInt(localStorage.getItem("cartCount") || "0");
-            cartCount++;
-            localStorage.setItem("cartCount", cartCount);
-            document.getElementById("cart-count").textContent = cartCount;
-        }
-
-        // Ejemplo: Llamar a esta función cuando un usuario haga clic en "Comprar Ahora"
-        document.querySelectorAll(".buy-button").forEach(button => {
-            button.addEventListener("click", addToCart);
-        });
     </script>
 
     <!-- 🔹 Modal del carrito -->
     <div id="cart-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-96 relative">
-            <h2 class="text-2xl font-bold text-[#072BF2] mb-4">🛒 Tu Carrito</h2>
+        <div class="flex max-w-4xl w-full bg-white rounded-xl shadow-lg overflow-hidden">
 
-            <!-- Contenedor de productos -->
-            <div id="cart-items" class="space-y-4">
-                <p class="text-gray-600 text-center">El carrito está vacío.</p>
+            <!-- Sección de formulario de compra (33%) -->
+            <div class="max-w-29 bg-[#a298fcd5] text-white flex flex-col items-center justify-center p-6">
+
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold">Finalizar Compra</h2>
+                </div>
+
+                <form id="payment-form" enctype="multipart/form-data" class="w-full space-y-4">
+                    @csrf
+
+                    <div class="flex gap-2">
+                        <input type="text" name="name" placeholder="Nombre"
+                            class="p-3 rounded text-gray-800 w-1/2" required>
+                        <input type="text" name="last_name" placeholder="Apellido"
+                            class="p-3 rounded text-gray-800 w-1/2" required>
+                    </div>
+
+                    <input type="email" name="email" placeholder="Correo Electrónico"
+                        class="p-3 rounded text-gray-800 w-full" required>
+                    <input type="text" name="phone" placeholder="Teléfono"
+                        class="p-3 rounded text-gray-800 w-full" required>
+
+                    <input type="text" name="address" placeholder="Dirección"
+                        class="p-3 rounded text-gray-800 w-full" required>
+
+                    <div class="flex gap-2">
+                        <input type="text" name="city" placeholder="Ciudad"
+                            class="p-3 rounded text-gray-800 w-1/3" required>
+                        <input type="text" name="state" placeholder="Estado"
+                            class="p-3 rounded text-gray-800 w-1/3" required>
+                        <input type="text" name="zip" placeholder="Código Postal"
+                            class="p-3 rounded text-gray-800 w-1/3" required>
+                    </div>
+
+                    <div id="technician-fields"
+                        class="hidden bg-[#e8eaf6] p-4 rounded-md border-l-4 border-[#4B75F2]">
+                        <label class="block font-bold text-[#4B75F2]">📹 Sube un video de verificación:</label>
+                        <p class="text-sm text-gray-700">
+                            Para verificar que eres técnico, sube un video donde:
+                        <ul class="list-disc list-inside mt-1 text-gray-600">
+                            <li>📌 Digas tu <b>nombre completo</b>.</li>
+                            <li>📌 Se vea claramente tu <b>rostro</b>.</li>
+                            <li>📌 Muestres los <b>equipos con los que trabajas</b>.</li>
+                        </ul>
+                        </p>
+                        <input type="file" name="verification_video" accept="video/*"
+                            class="w-full p-2 rounded bg-white text-gray-700 border border-gray-300 mt-2">
+                    </div>
+
+                    <!-- Botón de PayPal -->
+                    <div id="paypal-button-container" class="w-full"></div>
+                </form>
+
+
+
+                <span class="mt-4 cursor-pointer underline text-blue-600 hover:text-blue-800 transition"
+                    id="toggleTechnician">¿Eres técnico?</span>
             </div>
 
-            <!-- Botones -->
-            <div class="mt-4 flex justify-between">
-                <button id="close-cart" class="text-red-500 font-bold">❌ Cerrar</button>
-                <button id="checkout" class="bg-[#072BF2] text-white px-4 py-2 rounded-lg">💳 Finalizar
-                    Compra</button>
+            <!-- Sección para productos (67%) -->
+            <div class="w-2/3 p-8 overflow-y-auto productos-seleccionados">
+
+                <h2 class="text-xl font-bold mb-4">Productos Seleccionados</h2>
+
+                <!-- Aquí debes insertar tus productos dinámicamente con PHP o JS -->
+                <div class="space-y-4">
+                    <div class="p-4 rounded shadow border">
+                        <h3 class="font-bold">Minisplit CHI-R32-12K-110</h3>
+                        <p>1 tonelada, 220V, Frío/Calor, Inverter</p>
+                        <span class="font-bold">$10,000 MXN</span>
+                    </div>
+
+                    <div class="p-4 rounded shadow border">
+                        <h3 class="font-bold">Minisplit CHI-R32-24K-220</h3>
+                        <p>2 toneladas, 220V, Frío/Calor, Inverter</p>
+                        <span class="font-bold">$18,500 MXN</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 🔹 Modal de Confirmación de Pago -->
+    <div id="payment-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-96 text-center">
+            <h2 class="text-xl font-bold text-gray-800">Selecciona un método de pago</h2>
+            <p class="text-gray-600 mt-2">Puedes pagar con PayPal o Tarjeta de Débito/Crédito.</p>
+
+            <div class="mt-4 space-y-2">
+                <button id="pay-with-paypal"
+                    class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                    🅿️ Pagar con PayPal
+                </button>
+                <button id="pay-with-card"
+                    class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+                    💳 Pagar con Tarjeta
+                </button>
+                <button id="cancel-purchase"
+                    class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                    ❌ Cancelar Compra
+                </button>
             </div>
         </div>
     </div>
+
+    <!-- Scrip 2-->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Recuperar carrito desde localStorage
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let cartModal = document.getElementById("cart-modal");
+            let cartItemsContainer = document.querySelector(".productos-seleccionados .space-y-4");
+            let cartTotalContainer = document.createElement("div");
+            cartTotalContainer.classList.add("text-right", "mt-4", "font-bold", "text-lg");
+            cartItemsContainer.parentElement.appendChild(cartTotalContainer);
 
-            // Actualizar contador al cargar la página
-            document.getElementById("cart-count").textContent = cart.length;
+            let cartTitle = document.createElement("h2");
+            cartTitle.textContent = "Productos Agregados";
+            cartTitle.classList.add("text-xl", "font-bold", "text-gray-800", "mb-4", "border-b", "pb-2");
+            cartItemsContainer.parentElement.insertBefore(cartTitle, cartItemsContainer);
 
-            // Función para actualizar el contador y guardar en localStorage
-            function updateCart() {
-                localStorage.setItem("cart", JSON.stringify(cart));
-                document.getElementById("cart-count").textContent = cart.length;
+            let checkoutButton = document.createElement("button");
+            checkoutButton.textContent = "Finalizar Compra";
+            checkoutButton.classList.add("w-full", "mt-4", "py-3", "bg-green-500", "hover:bg-green-600",
+                "text-white", "font-bold", "rounded-lg", "shadow-lg", "transition");
+            cartTotalContainer.appendChild(checkoutButton);
+
+            if (!localStorage.getItem("cart")) {
+                localStorage.setItem("cart", JSON.stringify([]));
             }
 
-            // Función para agregar productos al carrito
-            function addToCart(event) {
-                let product = JSON.parse(event.target.getAttribute("data-product"));
-                cart.push(product);
-                updateCart();
-            }
+            let cart = JSON.parse(localStorage.getItem("cart"));
 
-            // Asignar evento a todos los botones "Comprar Ahora"
-            document.querySelectorAll(".buy-button").forEach(button => {
-                button.addEventListener("click", addToCart);
-            });
-
-            // Mostrar modal del carrito
-            document.getElementById("cart-button").addEventListener("click", function() {
-                let cartItemsContainer = document.getElementById("cart-items");
-                cartItemsContainer.innerHTML = ""; // Limpiar antes de mostrar
+            function updateCartUI() {
+                cartItemsContainer.innerHTML = "";
+                let totalAmount = 0;
 
                 if (cart.length === 0) {
                     cartItemsContainer.innerHTML =
                         `<p class="text-gray-600 text-center">El carrito está vacío.</p>`;
+                    cartTotalContainer.innerHTML = "";
+                    cartTitle.classList.add("hidden");
+                    checkoutButton.classList.add("hidden");
                 } else {
+                    cartTitle.classList.remove("hidden");
+                    checkoutButton.classList.remove("hidden");
                     cart.forEach((item, index) => {
+                        let totalItemPrice = item.quantity * item.price;
+                        totalAmount += totalItemPrice;
+
                         cartItemsContainer.innerHTML += `
-                            <div class="flex justify-between items-center border-b pb-2">
-                                <img src="${item.image}" class="w-12 h-12 rounded-lg">
-                                <div>
-                                    <p class="text-lg font-bold">${item.name}</p>
-                                    <p class="text-gray-600">$${item.price}</p>
-                                </div>
-                                <button class="text-red-500 font-bold remove-item" data-index="${index}">❌</button>
-                            </div>`;
+                <div class="p-4 rounded shadow border flex justify-between items-center bg-white">
+                    <div class="flex items-center space-x-4">
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 rounded-md border">
+                        <div>
+                            <h3 class="font-bold text-gray-800">${item.name}</h3>
+                            <p class="text-gray-700 font-bold mt-1">Cantidad: ${item.quantity}</p>
+                            <span class="font-bold text-[#4B75F2]">$${item.price} MXN c/u</span>
+                            <p class="text-gray-700 font-bold mt-1">Subtotal: $${totalItemPrice} MXN</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <button class="text-blue-500 font-bold text-xl change-qty" data-index="${index}" data-action="decrease">➖</button>
+                        <span class="mx-2 text-lg font-semibold">${item.quantity}</span>
+                        <button class="text-green-500 font-bold text-xl change-qty" data-index="${index}" data-action="increase">➕</button>
+                        <button class="text-red-500 font-bold text-xl remove-item ml-4" data-index="${index}">❌</button>
+                    </div>
+                </div>`;
                     });
+
+                    cartTotalContainer.innerHTML =
+                        `<p class="text-gray-900 font-bold text-lg">Total a pagar: $${totalAmount} MXN</p>`;
+                    cartTotalContainer.appendChild(checkoutButton);
                 }
 
-                document.getElementById("cart-modal").classList.remove("hidden");
+                document.getElementById("cart-count").textContent = cart.reduce((sum, item) => sum + item.quantity,
+                    0);
+            }
+
+            updateCartUI();
+
+            document.querySelectorAll(".buy-button").forEach(button => {
+                button.addEventListener("click", function() {
+                    let product = JSON.parse(this.getAttribute("data-product"));
+
+                    let existingProduct = cart.find(item => item.name === product.name);
+                    if (existingProduct) {
+                        existingProduct.quantity++;
+                    } else {
+                        product.quantity = 1;
+                        cart.push(product);
+                    }
+
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    updateCartUI();
+                });
             });
 
-            // Cerrar modal del carrito
-            document.getElementById("close-cart").addEventListener("click", function() {
-                document.getElementById("cart-modal").classList.add("hidden");
+            document.addEventListener("click", function(event) {
+                if (event.target.classList.contains("change-qty")) {
+                    let index = event.target.getAttribute("data-index");
+                    let action = event.target.getAttribute("data-action");
+
+                    if (action === "increase") {
+                        cart[index].quantity++;
+                    } else if (action === "decrease" && cart[index].quantity > 1) {
+                        cart[index].quantity--;
+                    } else if (action === "decrease" && cart[index].quantity === 1) {
+                        cart.splice(index, 1);
+                    }
+
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    updateCartUI();
+                }
             });
 
-            // Eliminar un producto del carrito
             document.addEventListener("click", function(event) {
                 if (event.target.classList.contains("remove-item")) {
                     let index = event.target.getAttribute("data-index");
                     cart.splice(index, 1);
-                    updateCart();
-                    document.getElementById("cart-button").click(); // Refrescar modal
+                    localStorage.setItem("cart", JSON.stringify(cart));
+                    updateCartUI();
                 }
             });
 
-            // Finalizar compra
-            document.getElementById("checkout").addEventListener("click", function() {
-                alert("✅ ¡Compra realizada con éxito!");
-                cart = []; // Vaciar carrito
-                updateCart();
-                document.getElementById("cart-modal").classList.add("hidden");
+            document.getElementById("cart-button").addEventListener("click", function() {
+                cartModal.classList.toggle("hidden");
+                updateCartUI();
             });
-        });
-    </script>
 
+            cartModal.addEventListener("click", function(event) {
+                if (event.target === this) {
+                    cartModal.classList.add("hidden");
+                }
+            });
+
+            checkoutButton.addEventListener("click", function() {
+                document.getElementById("payment-modal").classList.remove(
+                    "hidden"); // Muestra el modal de pago
+                cartModal.classList.add("hidden"); // Cierra el carrito para evitar solapamiento
+            });
+
+            // Evento para pagar con PayPal
+            document.getElementById("pay-with-paypal").addEventListener("click", function() {
+                procesarPago("PayPal");
+            });
+
+            // Evento para pagar con Tarjeta de Crédito/Débito
+            document.getElementById("pay-with-card").addEventListener("click", function() {
+                procesarPago("Tarjeta");
+            });
+
+            // Evento para cancelar la compra y cerrar modal
+            document.getElementById("cancel-purchase").addEventListener("click", function() {
+                document.getElementById("payment-modal").classList.add("hidden"); // Cierra el modal de pago
+                cartModal.classList.remove("hidden"); // Reabre el carrito para seguir comprando
+            });
+
+            // Función que procesa el pago según el método elegido
+            function procesarPago(metodoPago) {
+                let formData = new FormData(document.getElementById("payment-form"));
+                let total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+                formData.append("total", total);
+                formData.append("products", JSON.stringify(cart));
+                formData.append("payment_method", metodoPago); // Se añade el método de pago elegido
+
+                fetch("{{ route('order.store') }}", {
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert(`✅ Compra realizada con éxito. Folio: ${data.folio}`);
+                        localStorage.removeItem("cart");
+                        updateCartUI();
+                        document.getElementById("payment-modal").classList.add(
+                            "hidden"); // Cierra el modal de pago
+                        cartModal.classList.add("hidden"); // Cierra el carrito
+                    })
+                    .catch(error => console.error("Error:", error));
+            }
+
+            // 🔹 Cerrar la ventana de pago
+            document.getElementById("close-payment-modal").addEventListener("click", function() {
+                document.getElementById("payment-modal").classList.add("hidden");
+            });
+
+            // 🔹 Cancelar compra y vaciar carrito
+            document.getElementById("cancel-purchase").addEventListener("click", function() {
+                localStorage.removeItem("cart"); // Vacía el carrito
+                updateCartUI(); // Actualiza la interfaz
+                document.getElementById("payment-modal").classList.add("hidden"); // Cierra el modal de pago
+                document.getElementById("cart-modal").classList.add("hidden"); // Cierra el carrito
+            });
+
+            // 🔹 Pagar con PayPal
+            document.getElementById("pay-with-paypal").addEventListener("click", function() {
+                alert("🔹 Redirigiendo a PayPal...");
+                // Aquí puedes agregar la integración con la API de PayPal
+            });
+
+            // 🔹 Pagar con Tarjeta de Débito/Crédito
+            document.getElementById("pay-with-card").addEventListener("click", function() {
+                alert("🔹 Mostrando formulario de tarjeta...");
+                // Aquí puedes agregar la integración con una pasarela de pago (Stripe, MercadoPago, etc.)
+            });
+
+
+            let closeButton = document.createElement("button");
+            closeButton.innerHTML = "❌"; // Ícono en lugar de texto
+            closeButton.classList.add(
+                "absolute", "top-3", "right-3", "bg-red-600", "hover:bg-red-700",
+                "text-white", "text-lg", "w-10", "h-10", "rounded-full", "shadow-lg",
+                "flex", "items-center", "justify-center", "transition-all", "duration-300"
+            );
+            closeButton.addEventListener("click", function() {
+                cartModal.classList.add("hidden");
+            });
+            document.querySelector("#cart-modal > div").appendChild(closeButton);
+
+            // 🔹 Activar campo de video si es técnico
+            let toggleTechnicianButton = document.getElementById("toggleTechnician");
+            let technicianFields = document.getElementById("technician-fields");
+
+            if (toggleTechnicianButton) {
+                toggleTechnicianButton.addEventListener("click", function(event) {
+                    event.preventDefault(); // Evita salto en la página
+
+                    if (technicianFields.classList.contains("hidden")) {
+                        technicianFields.classList.remove("hidden");
+                        toggleTechnicianButton.classList.add("text-blue-800", "font-bold");
+                        toggleTechnicianButton.innerHTML = "✔ Eres técnico (Click para ocultar)";
+                    } else {
+                        technicianFields.classList.add("hidden");
+                        toggleTechnicianButton.classList.remove("text-blue-800", "font-bold");
+                        toggleTechnicianButton.innerHTML = "¿Eres técnico?";
+                    }
+                });
+            }
+        });
+
+        // Función que procesa el pago según el método elegido
+        function procesarPago(metodoPago) {
+            let formData = new FormData(document.getElementById("payment-form"));
+            let total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+            formData.append("total", total);
+            formData.append("products", JSON.stringify(cart));
+            formData.append("payment_method", metodoPago); // Se añade el método de pago elegido
+
+            fetch("{{ route('order.store') }}", {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(`✅ Compra realizada con éxito. Folio: ${data.folio}`);
+                    localStorage.removeItem("cart");
+                    updateCartUI();
+                    document.getElementById("payment-modal").classList.add("hidden"); // Cierra el modal de pago
+                })
+                .catch(error => console.error("Error:", error));
+        }
+    </script>
 </body>
 
 </html>
