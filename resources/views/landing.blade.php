@@ -8,6 +8,14 @@
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=AdeBl0mAJLAh2VnMXcB6-71gKE5G_rvBj0C_WrrseoEAv7ph_0FSbTxrgfSMFgNxi3fC6LDfK5pqEksp&currency=MXN">
+    </script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+
+    ``
     <style>
         #bienvenida {
             background: url("{{ asset('img/aufit-minisplit.jpg') }}") no-repeat center center/cover;
@@ -27,6 +35,312 @@
                 padding: 15px 10px;
                 /* 🔹 Reduce padding en móvil */
             }
+        }
+
+        #cart-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 1000;
+            max-width: 280px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* 🛒 Encabezado del carrito */
+        #cart-container h3 {
+            color: #072BF2;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* 📜 Lista de productos */
+        #cart-items {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* 🔹 Estilo de cada producto en el carrito */
+        .cart-item {
+            background: #f0f4ff;
+            color: black;
+            padding: 8px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* 🖼 Imagen del producto */
+        .cart-item img {
+            width: 50px;
+            height: 40px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        /* 📌 Nombre del producto */
+        .cart-item-info {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 🛑 Botón para eliminar productos */
+        .cart-item button {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 7px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .cart-item button:hover {
+            background: darkred;
+        }
+
+        /* 🔵 Botón de finalizar compra */
+        #finalizar-compra {
+            width: 100%;
+            padding: 10px;
+            background: #072BF2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        #finalizar-compra:hover {
+            background: #4B75F2;
+            transform: scale(1.05);
+        }
+
+        /* Agrega esto en tu sección <style> o en tu archivo CSS */
+        .form-group-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            /* Separación horizontal/vertical */
+            margin-bottom: 10px;
+            /* Espacio inferior */
+        }
+
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            width: 700px;
+            /* Aumenta el ancho para evitar scroll horizontal */
+            max-height: 85vh;
+            /* Mantén la altura máxima */
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            overflow-y: auto;
+            /* Si es muy alto, solo aparece scroll vertical */
+            background-color: white;
+            animation: fadeIn 0.3s ease-in-out;
+            /* ... */
+        }
+
+        .modal-content h2 {
+            color: #072BF2;
+            margin-bottom: 15px;
+        }
+
+        #order-summary {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-danger {
+            background: red;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: darkred;
+        }
+
+
+
+        /* 🛒 Estilos del Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            width: 700px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* ❌ Botón Cerrar */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* 📑 Estilos del Formulario */
+        .form-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .form-group input,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        h2,
+        h3 {
+            color: #072BF2;
+            margin-bottom: 10px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        button {
+            background: #072BF2;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 48%;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #4B75F2;
+        }
+
+        .cancel-btn {
+            background: red;
+        }
+
+        .cancel-btn:hover {
+            background: darkred;
+        }
+
+        /* 🔹 Ocultar Sección Técnico */
+        .hidden {
+            display: none;
+        }
+
+        /* 🎬 Animación de Aparición */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 🛠 Corregir color de texto en inputs y select */
+        .modal-content input,
+        .modal-content select {
+            color: black;
+            /* Cambiar el color del texto a negro */
+            background-color: #E8F0FE !important;
+            /*            /* Asegurar que el fondo sea blanco */
+            border: 1px solid #ccc;
+            /* Bordes más visibles */
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        /* 🔽 Ajustar el color del texto dentro del select */
+        .modal-content select option {
+            color: black;
+            /* Color del texto */
+            background-color: white;
+            /* Fondo blanco */
+        }
+
+        /* 🏷 Mejorar etiquetas para mejor legibilidad */
+        .modal-content label {
+            color: #072BF2;
+            /* Azul principal */
+            font-weight: bold;
+            display: block;
+            margin-bottom: 3px;
+            text-align: left;
+        }
+
+        #modal-resumen {
+            color: black !important;
+        }
+
+        #modal-resumen h2,
+        #modal-resumen p,
+        #modal-resumen span {
+            color: black !important;
         }
 
         body {
@@ -138,6 +452,24 @@
             padding: 100px 20px 40px;
             /* 🔹 Aumenta el padding superior para subir el contenido */
         }
+
+        /* Ajusta los valores a tu preferencia */
+        .btn-big {
+            font-size: 1.2rem !important;
+            /* Tamaño de fuente más grande */
+            padding: 0.75rem 8rem !important;
+            /* Más espacio interno */
+            background-color: #3085d6 !important;
+            /* Fondo azul (o el que prefieras) */
+            color: #fff !important;
+            /* Texto blanco */
+            border: none !important;
+            /* Sin bordes */
+            border-radius: 0.5rem !important;
+            /* Bordes redondeados */
+            cursor: pointer;
+        }
+
 
         /* ✅ Mejora la legibilidad del texto */
         #bienvenida::after {
@@ -563,6 +895,143 @@
 </head>
 
 <body>
+    <!-- 🛒 Carrito de Compras Mejorado con Imágenes -->
+    <div id="cart-container">
+        <h3>🛒 Carrito de Compras</h3>
+        <ul id="cart-items"></ul>
+        <button id="finalizar-compra" onclick="abrirModal()">Finalizar Compra</button>
+
+    </div>
+    <!-- Nueva Modal: Resumen del Pedido -->
+    <div id="modal-resumen" class="modal">
+        <div class="modal-content">
+            <h2>Resumen de Compra</h2>
+            <div id="order-summary"></div>
+            <div id="paypal-button-container"></div> <!-- Aquí se cargará el botón de PayPal -->
+            <button class="btn btn-danger" onclick="cerrarModalResumen()">Cancelar</button>
+        </div>
+    </div>
+
+
+    <!-- 🛒 Modal de Finalizar Compra -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="cerrarModal()">&times;</span>
+            <h2>Completa tu Información</h2>
+
+            <form id="checkoutForm" enctype="multipart/form-data">
+                <!-- Tres columnas: Nombre, Apellido, Teléfono -->
+                <div class="form-group-3">
+                    <div>
+                        <label>Nombre:</label>
+                        <input type="text" id="name" placeholder="Tu nombre" required>
+                    </div>
+                    <div>
+                        <label>Apellido:</label>
+                        <input type="text" id="last_name" placeholder="Tu apellido">
+                    </div>
+                    <div>
+                        <label>Teléfono:</label>
+                        <input type="text" id="phone" placeholder="Tu teléfono" required>
+                    </div>
+                </div>
+
+                <!-- Tres columnas: Correo, ¿Técnico?, ¿Es departamento? -->
+                <div class="form-group-3">
+                    <div>
+                        <label>Correo:</label>
+                        <input type="email" id="email" placeholder="tucorreo@example.com" required>
+                    </div>
+                    <div>
+                        <label>¿Técnico?</label>
+                        <select id="is_technician" onchange="mostrarSeccionTecnico()">
+                            <option value="no">No</option>
+                            <option value="yes">Sí</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>¿Es departamento?</label>
+                        <select id="is_apartment" onchange="toggleInterior()">
+                            <option value="no">No</option>
+                            <option value="yes">Sí</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Tres columnas: Calle, Número, Colonia -->
+                <div class="form-group-3">
+                    <div>
+                        <label>Calle:</label>
+                        <input type="text" id="address" placeholder="Calle" required>
+                    </div>
+                    <div>
+                        <label>Núm. Calle:</label>
+                        <input type="text" id="number" placeholder="123">
+                    </div>
+                    <div>
+                        <label>Colonia:</label>
+                        <input type="text" id="colonia" placeholder="Tu colonia">
+                    </div>
+                </div>
+
+                <!-- Tres columnas: Ciudad, Estado, País -->
+                <div class="form-group-3">
+                    <div>
+                        <label>Ciudad:</label>
+                        <input type="text" id="city" placeholder="Ciudad" required>
+                    </div>
+                    <div>
+                        <label>Estado:</label>
+                        <input type="text" id="state" placeholder="Estado" required>
+                    </div>
+                    <div>
+                        <label>País:</label>
+                        <input type="text" id="country" placeholder="México" required>
+                    </div>
+                </div>
+
+                <!-- Dos columnas: Código Postal y "¿Requiere factura?" -->
+                <div class="form-group">
+                    <div>
+                        <label>Código Postal:</label>
+                        <input type="text" id="zip" placeholder="00000" required>
+                    </div>
+                    <div>
+                        <label>¿Requiere factura?</label>
+                        <select id="requires_invoice">
+                            <option value="no">No</option>
+                            <option value="yes">Sí</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Número Interior (se oculta cuando "¿Es departamento?" es "No") -->
+                <div class="form-group" id="interiorDiv" style="display: none;">
+                    <div>
+                        <label>Número Interior:</label>
+                        <input type="text" id="no_interior" placeholder="Ej. Dpto 201">
+                    </div>
+                </div>
+
+                <!-- Sección para técnicos (oculta si "¿Técnico?" es "No") -->
+                <div id="technicianSection" class="hidden">
+                    <h3>Confirmación Técnica</h3>
+                    <label>Sube un video mostrando tu herramienta de trabajo:</label>
+                    <input type="file" id="verification_video" accept="video/*">
+                </div>
+
+
+                <!-- Botones -->
+                <div class="form-actions">
+                    <button type="button" onclick="abrirModalResumen()">Confirmar Compra</button>
+                    <button type="button" class="cancel-btn" onclick="cerrarModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
 
     <!-- 🔹 Barra de Navegación Mejorada -->
     <header id="navbar"
@@ -570,9 +1039,8 @@
         <div class="container mx-auto flex justify-between items-center py-3 px-8">
 
             <!-- 🔹 Logo -->
-            <h1 class="text-2xl font-bold text-white cursor-pointer tracking-wide">LandingMinisplit</h1>
-
-            <!-- 🔹 Menú de Navegación -->
+            <h1 class="text-2xl font-bold text-white cursor-pointer tracking-wide">LandingMinisplit</h1 <!-- 🔹 Menú de
+                Navegación -->
             <nav class="flex flex-col md:flex-row md:space-x-6 text-white">
                 <a href="#bienvenida" class="nav-link">Inicio</a>
                 <a href="#videos" class="nav-link">Videos Destacados</a>
@@ -806,8 +1274,8 @@
                         <p class="text-xl font-bold text-[#072BF2] mt-4">Precio en oferta: <span
                                 class="text-green-600">$7,599</span></p>
 
-                        <button
-                            class="mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg 
+                        <button onclick="agregarAlCarrito('Minisplit 1')"
+                            class="mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg
                                 shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95">
                             🛒 Comprar Ahora
                         </button>
@@ -847,8 +1315,8 @@
                         <p class="text-xl font-bold text-[#072BF2] mt-4">Precio en oferta: <span
                                 class="text-green-600">$14,900</span></p>
 
-                        <button
-                            class="mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg 
+                        <button onclick="agregarAlCarrito('Minisplit 2')"
+                            class="mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg
                                 shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95">
                             🛒 Comprar Ahora
                         </button>
@@ -956,9 +1424,7 @@
                 </div>
             </div>
         </section>
-
     </main>
-
     <!-- Animación de entrada -->
     <style>
         @keyframes fade-in {
@@ -992,8 +1458,6 @@
     <script src="https://cdn.tailwindcss.com" defer></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous" defer></script>
-
 
     <!-- AOS y GSAP -->
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
@@ -1003,6 +1467,235 @@
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3/dist/js/splide.min.js"></script>
 
     <script>
+        function toggleInterior() {
+            let isApartment = document.getElementById('is_apartment').value;
+            let interiorDiv = document.getElementById('interiorDiv');
+            if (isApartment === 'yes') {
+                interiorDiv.style.display = 'block'; // Muestra
+            } else {
+                interiorDiv.style.display = 'none'; // Oculta
+            }
+        }
+
+        function cerrarModalResumen() {
+            document.getElementById('modal-resumen').style.display = 'none';
+        }
+
+        function abrirModalResumen() {
+            let resumen = document.getElementById('order-summary');
+            resumen.innerHTML = ''; // Limpiar contenido previo
+
+            if (Object.keys(carrito).length === 0) {
+                alert('Tu carrito está vacío. Agrega productos antes de continuar.');
+                return;
+            }
+
+            let total = calcularTotal(); // Calculamos el total antes de mostrarlo
+
+            Object.keys(carrito).forEach(producto => {
+                let item = document.createElement('div');
+                item.innerHTML = `
+            <p><strong>${productos[producto].nombre}</strong> (x${carrito[producto]})</p>
+            <img src="${productos[producto].imagen}" width="80px" height="50px">
+            <hr>
+        `;
+                resumen.appendChild(item);
+            });
+
+            // Agregar el total de la compra en la ventana
+            let totalElement = document.createElement('p');
+            totalElement.innerHTML = `<strong>Total: $${total} MXN</strong>`;
+            totalElement.style.fontSize = "18px";
+            totalElement.style.color = "black";
+            resumen.appendChild(totalElement);
+
+            // Mostrar la ventana del resumen
+            document.getElementById('modal-resumen').style.display = 'block';
+
+            // Limpiar el contenedor antes de renderizar nuevamente
+            document.getElementById('paypal-button-container').innerHTML = '';
+
+            // Renderizar el botón de PayPal
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: total
+                            }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        procesarCompra();
+                        cerrarModalResumen();
+                        cerrarModal(); // Cierra también el formulario de compra
+                    });
+                }
+            }).render('#paypal-button-container');
+            cerrarModal();
+        }
+
+        // ✅ Función para abrir el modal
+        function abrirModal() {
+            document.getElementById('checkoutModal').style.display = 'flex';
+        }
+
+        // ❌ Función para cerrar el modal
+        function cerrarModal() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
+
+        // 👷‍♂️ Mostrar sección si el usuario es técnico
+        function mostrarSeccionTecnico() {
+            let isTechnician = document.getElementById('is_technician').value;
+            let section = document.getElementById('technicianSection');
+            section.style.display = (isTechnician === 'yes') ? 'block' : 'none';
+        }
+
+
+        function procesarCompra() {
+            let formData = new FormData();
+            formData.append('name', document.getElementById('name').value);
+            formData.append('last_name', document.getElementById('last_name').value); // NUEVO
+            formData.append('colonia', document.getElementById('colonia').value); // NUEVO
+            formData.append('number', document.getElementById('number').value); // NUEVO
+            formData.append('no_interior', document.getElementById('no_interior').value); // NUEVO
+
+            formData.append('is_apartment', document.getElementById('is_apartment').value === 'yes' ? 1 : 0);
+            formData.append('requires_invoice', document.getElementById('requires_invoice').value === 'yes' ? 1 : 0);
+
+            formData.append('email', document.getElementById('email').value);
+            formData.append('phone', document.getElementById('phone').value);
+            formData.append('address', document.getElementById('address').value);
+            formData.append('city', document.getElementById('city').value);
+            formData.append('state', document.getElementById('state').value);
+            formData.append('zip', document.getElementById('zip').value);
+            formData.append('is_technician', document.getElementById('is_technician').value === 'yes' ? 1 : 0);
+            formData.append('items', JSON.stringify(carrito));
+            // formData.append('price', total);              // number
+            // formData.append('paypal_order_id', paypalOrderId); // string
+
+            let verificationVideo = document.getElementById('verification_video').files[0];
+            if (verificationVideo) {
+                formData.append('verification_video', verificationVideo);
+            }
+
+
+            fetch('/compra', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Compra exitosa!',
+                            text: 'En breve recibirá un correo con los datos de su compra.',
+                            confirmButtonText: 'Aceptar',
+                            customClass: {
+                                confirmButton: 'btn-big' // 1) Clase personalizada para el botón
+                            },
+                            buttonsStyling: false // 2) Desactiva el estilo por defecto
+                        });
+
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Error al procesar la compra.',
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar'
+                        });
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+
+        }
+
+
+        document.getElementById('checkoutModal').style.display = 'none';
+
+        function calcularTotal() {
+            let total = 0;
+            Object.keys(carrito).forEach(producto => {
+                total += carrito[producto] * obtenerPrecio(producto);
+            });
+            return total.toFixed(2);
+        }
+
+        function confirmarCompra() {
+            let resumen = document.getElementById('order-summary');
+            resumen.innerHTML = ''; // Limpiar contenido previo
+
+            Object.keys(carrito).forEach(producto => {
+                let item = document.createElement('div');
+                item.innerHTML = `
+            <p><strong>${productos[producto].nombre}</strong> (x${carrito[producto]})</p>
+            <img src="${productos[producto].imagen}" width="80px" height="50px">
+            <hr>
+        `;
+                resumen.appendChild(item);
+            });
+
+            // Agregar total de la compra
+            let totalElement = document.createElement('p');
+            totalElement.innerHTML = `<strong>Total: $${calcularTotal()} MXN</strong>`;
+            totalElement.style.fontSize = "18px";
+            totalElement.style.color = "black";
+            resumen.appendChild(totalElement);
+
+            // Mostrar modal
+            document.getElementById('modal-resumen').style.display = 'block';
+
+            // Renderizar botón de PayPal
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: calcularTotal()
+                            }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        alert('Pago exitoso: ' + details.payer.name.given_name);
+                        procesarCompra();
+                    });
+                }
+            }).render('#paypal-button-container');
+
+        }
+
+
+
+        function cerrarModalResumen() {
+            document.getElementById('modal-resumen').style.display = 'none';
+        }
+
+        function calcularTotal() {
+            let total = 0;
+            Object.keys(carrito).forEach(producto => {
+                total += carrito[producto] * obtenerPrecio(producto);
+            });
+            return total.toFixed(2);
+        }
+
+        function obtenerPrecio(producto) {
+            const precios = {
+                "Minisplit 1": 7599,
+                "Minisplit 2": 14900
+            };
+            return precios[producto] || 0;
+        }
+
+
         AOS.init();
 
         document.addEventListener("DOMContentLoaded", function() {
@@ -1092,7 +1785,64 @@
         window.addEventListener('scroll', function() {
             document.getElementById('navbar').classList.toggle('nav-active', window.scrollY > 50);
         });
+
+        let carrito = {};
+
+        const productos = {
+            "Minisplit 1": {
+                nombre: "AUFIT CHI-R32-12K-110/220",
+                imagen: "/img/aufit-minisplit-1ton.jpg" // Ruta correcta para Laravel
+            },
+            "Minisplit 2": {
+                nombre: "AUFIT CHI-R32-24K-220",
+                imagen: "/img/aufit-minisplit-2ton.jpg" // Agrega esta imagen a la carpeta "public/img/"
+            }
+        };
+
+
+        function agregarAlCarrito(producto) {
+            if (!carrito[producto]) {
+                carrito[producto] = 0;
+            }
+            carrito[producto]++;
+            actualizarCarrito();
+        }
+
+        function eliminarDelCarrito(producto) {
+            if (carrito[producto]) {
+                carrito[producto]--;
+                if (carrito[producto] === 0) {
+                    delete carrito[producto];
+                }
+            }
+            actualizarCarrito();
+        }
+
+        function actualizarCarrito() {
+            const cartContainer = document.getElementById('cart-container');
+            const cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = '';
+
+            Object.keys(carrito).forEach(producto => {
+                const li = document.createElement('li');
+                li.classList.add('cart-item');
+
+                li.innerHTML = `
+            <div class="cart-item-info">
+                <img src="${productos[producto].imagen}" alt="${productos[producto].nombre}">
+                <span>${productos[producto].nombre} (x${carrito[producto]})</span>
+            </div>
+            <button onclick="eliminarDelCarrito('${producto}')">❌</button>
+        `;
+
+                cartItems.appendChild(li);
+            });
+
+            // Muestra el carrito solo si hay productos
+            cartContainer.style.display = Object.keys(carrito).length > 0 ? 'block' : 'none';
+        }
     </script>
+
 </body>
 
 </html>

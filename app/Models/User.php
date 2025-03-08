@@ -19,9 +19,26 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'last_name',       // <--- Agregado
         'email',
-        'password',
+        'phone',
+        'address',
+        'number',          // <--- Agregado
+        'city',
+        'state',
+        'zip',
+        'colonia',         // <--- Agregado
+        'no_interior',     // <--- Agregado
+        'is_apartment',    // <--- Agregado (bool o tinyint)
+        'requires_invoice', // <--- Agregado (bool o tinyint)
+        'is_technician',
+        // 'price',
+        // 'paypal_order_id',
+        'folio',
+
     ];
+
+
 
     /**
      * The attributes that should be hidden for serialization.
