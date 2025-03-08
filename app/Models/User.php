@@ -35,6 +35,11 @@ class User extends Authenticatable
         // 'price',
         // 'paypal_order_id',
         'folio',
+        'requires_invoice',
+        'invoice_rfc',
+        'invoice_name',
+        'invoice_regimen',
+        'invoice_cfdi_use',
 
     ];
 

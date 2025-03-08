@@ -10,7 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script
-        src="https://www.paypal.com/sdk/js?client-id=AdeBl0mAJLAh2VnMXcB6-71gKE5G_rvBj0C_WrrseoEAv7ph_0FSbTxrgfSMFgNxi3fC6LDfK5pqEksp&currency=MXN">
+        src="https://www.paypal.com/sdk/js?client-id=AVfyUgSurCNV0md7yLddN8uUk2PNktWedJE2RAjiSercq66qzOORbJl5P0riBxugUlSwtc2WeN1jMGQQ&currency=MXN">
     </script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -891,10 +891,36 @@
                 opacity: 1;
             }
         }
+
+        #floating-button {
+            position: fixed;
+            bottom: 80px;
+            /* Ajusta la altura donde quieras */
+            right: 20px;
+            z-index: 9999;
+            background-color: #072BF2;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        #floating-button:hover {
+            background-color: #4B75F2;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 
 <body>
+
+    <button id="floating-button">Comprar ahora</button>
+
     <!-- 🛒 Carrito de Compras Mejorado con Imágenes -->
     <div id="cart-container">
         <h3>🛒 Carrito de Compras</h3>
@@ -1002,6 +1028,26 @@
                             <option value="no">No</option>
                             <option value="yes">Sí</option>
                         </select>
+                    </div>
+                </div>
+
+                <!-- Sección que se mostrará sólo si requires_invoice = yes -->
+                <div id="invoiceFields" style="display: none;">
+                    <div class="form-group">
+                        <label>RFC:</label>
+                        <input type="text" id="invoice_rfc" placeholder="XAXX010101000">
+                    </div>
+                    <div class="form-group">
+                        <label>Razón Social / Nombre Receptor:</label>
+                        <input type="text" id="invoice_name" placeholder="Tu razón social o nombre">
+                    </div>
+                    <div class="form-group">
+                        <label>Régimen Fiscal:</label>
+                        <input type="text" id="invoice_regimen" placeholder="Régimen Fiscal">
+                    </div>
+                    <div class="form-group">
+                        <label>Uso de CFDI:</label>
+                        <input type="text" id="invoice_cfdi_use" placeholder="G01, D01, etc.">
                     </div>
                 </div>
 
@@ -1554,6 +1600,16 @@
             section.style.display = (isTechnician === 'yes') ? 'block' : 'none';
         }
 
+        document.getElementById('requires_invoice').addEventListener('change', function() {
+            const invoiceSection = document.getElementById('invoiceFields');
+            if (this.value === 'yes') {
+                invoiceSection.style.display = 'block';
+            } else {
+                invoiceSection.style.display = 'none';
+            }
+        });
+
+
 
         function procesarCompra() {
             let formData = new FormData();
@@ -1574,12 +1630,23 @@
             formData.append('zip', document.getElementById('zip').value);
             formData.append('is_technician', document.getElementById('is_technician').value === 'yes' ? 1 : 0);
             formData.append('items', JSON.stringify(carrito));
+            formData.append('requires_invoice', document.getElementById('requires_invoice').value === 'yes' ? 1 : 0);
+
+
             // formData.append('price', total);              // number
             // formData.append('paypal_order_id', paypalOrderId); // string
 
             let verificationVideo = document.getElementById('verification_video').files[0];
             if (verificationVideo) {
                 formData.append('verification_video', verificationVideo);
+            }
+
+            // Si el usuario requiere factura, tomamos los campos
+            if (document.getElementById('requires_invoice').value === 'yes') {
+                formData.append('invoice_rfc', document.getElementById('invoice_rfc').value);
+                formData.append('invoice_name', document.getElementById('invoice_name').value);
+                formData.append('invoice_regimen', document.getElementById('invoice_regimen').value);
+                formData.append('invoice_cfdi_use', document.getElementById('invoice_cfdi_use').value);
             }
 
 
@@ -1712,6 +1779,8 @@
             }).mount();
         });
 
+
+
         function toggleMenu() {
             document.querySelector('#navbar ul').classList.toggle('active');
         }
@@ -1807,6 +1876,17 @@
             carrito[producto]++;
             actualizarCarrito();
         }
+
+        document.getElementById('floating-button').addEventListener('click', function() {
+            // Opción 1: desplazamiento suave nativo
+            document.getElementById('productos').scrollIntoView({
+                behavior: 'smooth'
+            });
+
+            // Opción 2: si quisieras usar Anchor:
+            // window.location.hash = '#productos';
+        });
+
 
         function eliminarDelCarrito(producto) {
             if (carrito[producto]) {
