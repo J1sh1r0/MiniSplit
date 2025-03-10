@@ -771,6 +771,48 @@
             /* Rojo más oscuro */
             transform: scale(1.1);
         }
+
+        /* 🔹 Menú móvil */
+        #mobile-menu {
+            z-index: 9999; /* Asegura que esté por encima de todo */
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.9);
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0s linear 0.3s;
+        }
+
+        /* 🔹 Muestra el menú con transición */
+        #mobile-menu.show {
+            pointer-events: auto;
+            opacity: 1;
+            transform: scale(1);
+            visibility: visible;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        /* 🔹 Ajusta el botón de cierre */
+        #close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        #close-menu:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -1227,6 +1269,40 @@
 
     <!-- Scrip 4-->
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const mobileMenu = document.getElementById("mobile-menu");
+            const menuToggle = document.getElementById("menu-toggle");
+            const closeMenu = document.getElementById("close-menu");
+            const mobileLinks = document.querySelectorAll("#mobile-menu a");
+
+            // 🔹 Alternar menú
+            menuToggle.addEventListener("click", function() {
+                const isMenuOpen = mobileMenu.classList.contains("show");
+
+                if (isMenuOpen) {
+                    closeNavMenu();
+                } else {
+                    openNavMenu();
+                }
+            });
+
+            // 🔹 Cierra el menú al hacer clic en el botón ✖
+            closeMenu.addEventListener("click", closeNavMenu);
+
+            // 🔹 Cierra el menú al hacer clic en cualquier opción
+            mobileLinks.forEach(link => {
+                link.addEventListener("click", closeNavMenu);
+            });
+
+            function openNavMenu() {
+                mobileMenu.classList.add("show");
+            }
+
+            function closeNavMenu() {
+                mobileMenu.classList.remove("show");
+            }
+        });
+
         AOS.init();
 
         document.addEventListener("DOMContentLoaded", function() {
