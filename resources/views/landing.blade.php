@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LandingMinisplit</title>
+    <title>INXPLIT</title>
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -824,12 +824,6 @@
             box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
         }
 
-        /* 📤 Estilo del Botón de "Subir Video" */
-        #paquetes-tecnicos .container button {
-            transition: all 0.3s ease-in-out;
-            font-size: 1.1rem;
-        }
-
         #paquetes-tecnicos .container button:hover {
             transform: scale(1.08);
             box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
@@ -914,12 +908,86 @@
             background-color: #4B75F2;
             transform: scale(1.05);
         }
+
+        /* Botón flotante */
+        #comprar-ya {
+            position: fixed;
+            bottom: 80px;
+            /* Ajusta la distancia desde abajo */
+            right: 20px;
+            /* Ajusta la distancia desde la derecha */
+            background-color: #FFD700;
+            /* Amarillo tipo “Gold” */
+            color: #000;
+            /* Texto en negro para contrastar */
+            padding: 15px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            z-index: 9999;
+            /* Que quede por encima de casi todo */
+
+            /* Efecto de palpitación con la animación “pulse” */
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Animación “pulse” */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(255, 215, 0, 0.7);
+            }
+
+            70% {
+                transform: scale(1.1);
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 rgba(255, 215, 0, 0.7);
+            }
+        }
+
+        /* Ajustar el modal y las columnas en pantallas pequeñas */
+        @media (max-width: 768px) {
+
+            /* Que la rejilla de 3 columnas sea 1 sola columna en móvil */
+            .form-group-3 {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Si tienes .form-group de 2 columnas, también se vuelve 1 */
+            .form-group {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Ajustar el ancho del modal en pantallas pequeñas */
+            .modal-content {
+                width: 90% !important;
+                margin: 5% auto;
+                /* Opcional: puedes ajustar la altura si quieres */
+                max-height: 80vh;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .form-group-3>div input,
+            .form-group-3>div select,
+            .form-group>div input,
+            .form-group>div select {
+                width: 100% !important;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <button id="floating-button">Comprar ahora</button>
+    <button id="comprar-ya">Comprar ahora</button>
 
     <!-- 🛒 Carrito de Compras Mejorado con Imágenes -->
     <div id="cart-container">
@@ -954,7 +1022,7 @@
                     </div>
                     <div>
                         <label>Apellido:</label>
-                        <input type="text" id="last_name" placeholder="Tu apellido">
+                        <input type="text" id="last_name" placeholder="Tu apellido" required>
                     </div>
                     <div>
                         <label>Teléfono:</label>
@@ -992,11 +1060,11 @@
                     </div>
                     <div>
                         <label>Núm. Calle:</label>
-                        <input type="text" id="number" placeholder="123">
+                        <input type="text" id="number" placeholder="123" required>
                     </div>
                     <div>
                         <label>Colonia:</label>
-                        <input type="text" id="colonia" placeholder="Tu colonia">
+                        <input type="text" id="colonia" placeholder="Tu colonia" required>
                     </div>
                 </div>
 
@@ -1049,6 +1117,40 @@
                         <label>Uso de CFDI:</label>
                         <input type="text" id="invoice_cfdi_use" placeholder="G01, D01, etc.">
                     </div>
+                    <!-- Dirección de facturación -->
+                    <h3>Dirección de Facturación</h3>
+                    <div class="form-group">
+                        <label>Calle (fact.):</label>
+                        <input type="text" id="invoice_street" placeholder="Calle para factura">
+                    </div>
+                    <div class="form-group">
+                        <label>Núm. (fact.):</label>
+                        <input type="text" id="invoice_number" placeholder="123">
+                    </div>
+                    <div class="form-group">
+                        <label>Interior (fact.):</label>
+                        <input type="text" id="invoice_interior" placeholder="Ej. Dpto 2">
+                    </div>
+                    <div class="form-group">
+                        <label>Colonia (fact.):</label>
+                        <input type="text" id="invoice_colonia" placeholder="Tu colonia">
+                    </div>
+                    <div class="form-group">
+                        <label>Ciudad (fact.):</label>
+                        <input type="text" id="invoice_city" placeholder="Ciudad de facturación">
+                    </div>
+                    <div class="form-group">
+                        <label>Estado (fact.):</label>
+                        <input type="text" id="invoice_state" placeholder="Estado de facturación">
+                    </div>
+                    <div class="form-group">
+                        <label>C.P. (fact.):</label>
+                        <input type="text" id="invoice_zip" placeholder="00000">
+                    </div>
+                    <div class="form-group">
+                        <label>País (fact.):</label>
+                        <input type="text" id="invoice_country" placeholder="México">
+                    </div>
                 </div>
 
                 <!-- Número Interior (se oculta cuando "¿Es departamento?" es "No") -->
@@ -1085,7 +1187,7 @@
         <div class="container mx-auto flex justify-between items-center py-3 px-8">
 
             <!-- 🔹 Logo -->
-            <h1 class="text-2xl font-bold text-white cursor-pointer tracking-wide">LandingMinisplit</h1 <!-- 🔹 Menú de
+            <h1 class="text-2xl font-bold text-white cursor-pointer tracking-wide">INXPLIT</h1 <!-- 🔹 Menú de
                 Navegación -->
             <nav class="flex flex-col md:flex-row md:space-x-6 text-white">
                 <a href="#bienvenida" class="nav-link">Inicio</a>
@@ -1098,16 +1200,18 @@
             </nav>
 
             <!-- 🔹 Menú Hamburguesa para móviles -->
-            <div class="md:hidden flex items-center">
-                <button id="menu-toggle" class="text-3xl text-white focus:outline-none">☰</button>
-            </div>
+            <button id="menu-toggle" class="md:hidden text-3xl text-white focus:outline-none">
+                ☰
+            </button>
         </div>
     </header>
 
     <!-- 🔹 Menú móvil -->
     <div id="mobile-menu"
-        class="hidden fixed inset-0 bg-black bg-opacity-90 flex flex-col justify-center items-center text-white space-y-6 text-2xl overflow-y-auto">
+        class="hidden md:hidden fixed inset-0 bg-black bg-opacity-90 flex flex-col justify-center items-center text-white space-y-6 text-2xl overflow-y-auto  z-[9999]">
+
         <button id="close-menu" class="absolute top-5 right-5 text-3xl">✖</button>
+
         <a href="#bienvenida" class="nav-link">Inicio</a>
         <a href="#videos" class="nav-link">Videos Destacados</a>
         <a href="#beneficios-minisplit" class="nav-link">Beneficios</a>
@@ -1115,16 +1219,7 @@
         <a href="#productos" class="nav-link">Minisplits</a>
         <a href="#paquetes-tecnicos" class="nav-link">Paquetes Técnicos</a>
         <a href="#contacto" class="nav-link">Contacto</a>
-        <!-- Icono del carrito -->
-        <div id="cart-container" class="relative cursor-pointer">
-            <button id="cart-button" class="text-white text-2xl">
-                🛒 <span id="cart-count" class="bg-red-500 text-white text-sm px-2 py-1 rounded-full">0</span>
-            </button>
-        </div>
-
     </div>
-
-
 
     <!-- 🔹 Secciones -->
     <main class="pt-24">
@@ -1216,7 +1311,7 @@
                     class="feature-card bg-gradient-to-b from-white to-gray-100 p-6 rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-2 flex flex-col items-center text-center">
                     <img src="{{ asset('img/icono-inverter.png') }}" alt="Inverter" class="w-20 h-20">
                     <h3 class="text-2xl font-bold mt-4 text-[#072BF2]">Tecnología Inverter</h3>
-                    <p class="mt-2 text-gray-700">Ahorra hasta un 40% en consumo eléctrico y proporciona un
+                    <p class="mt-2 text-gray-700">Ahorra hasta un 60% en consumo eléctrico y proporciona un
                         enfriamiento
                         más eficiente.</p>
                 </div>
@@ -1380,13 +1475,10 @@
                 class="container mx-auto mt-6 max-w-3xl bg-white p-6 rounded-xl shadow-lg transition hover:shadow-2xl">
                 <h3 class="text-2xl font-semibold text-gray-800">Confirmación Requerida</h3>
                 <p class="text-gray-600 mt-2">
-                    Para acceder a los beneficios, debes subir un video mostrando tu equipo de trabajo
-                    (bandas de vacío, manómetros, herramientas, etc.).
+                    Para acceder a los beneficios, debes subir un video al momento de la compra, mostrando tu equipo de
+                    trabajo
+                    (bombas de vacío, manómetros, herramientas, etc.).
                 </p>
-                <button
-                    class="mt-4 px-6 py-3 bg-[#072BF2] text-white font-semibold rounded-lg shadow-md hover:bg-[#4B75F2] hover:scale-105 transition">
-                    📤 Subir Video
-                </button>
             </div>
 
             <div class="container mx-auto grid md:grid-cols-2 gap-10 mt-12">
@@ -1397,7 +1489,7 @@
                     <p class="mt-4 text-lg text-gray-700">Obtienes los siguientes beneficios:</p>
                     <ul class="mt-4 text-left text-gray-600">
                         <li>✅ Gratis 1 sacabocado para pared ($500)</li>
-                        <li>🎟 Entra en rifa de 1 recuperadora de refrigerante ($9000)</li>
+                        <li>🎟 Entra en rifa de 1 recuperadora de refrigerante ($13,000)</li>
                     </ul>
                     <button
                         class="mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95">
@@ -1461,7 +1553,7 @@
 
                 <!-- Opción de Llamada Directa -->
                 <div class="mt-6 text-center">
-                    <p class="text-gray-300">¿Prefieres hablar directamente?</p>
+                    <p class="text-gray-300">Habla con un especialista ahora mismo</p>
                     <a href="https://eldeseo.a.gdms.cloud/click2call?from_user=webrtc_trunk_1&to_user=service"
                         id="callButton"
                         class="mt-2 inline-block w-full p-3 bg-green-500 hover:bg-green-600 transition-all duration-300 text-white font-bold rounded-lg shadow-lg transform hover:scale-105 active:scale-95">
@@ -1513,6 +1605,28 @@
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3/dist/js/splide.min.js"></script>
 
     <script>
+        const menuToggle = document.getElementById("menu-toggle");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const closeMenuBtn = document.getElementById("close-menu");
+        const navLinks = document.querySelectorAll("#mobile-menu .nav-link");
+
+        menuToggle.addEventListener("click", () => {
+            // Muestra el overlay
+            mobileMenu.classList.remove("hidden");
+        });
+
+        closeMenuBtn.addEventListener("click", () => {
+            // Oculta el overlay
+            mobileMenu.classList.add("hidden");
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                // Al hacer clic en cualquier sección, cierra el menú móvil
+                mobileMenu.classList.add("hidden");
+            });
+        });
+
         function toggleInterior() {
             let isApartment = document.getElementById('is_apartment').value;
             let interiorDiv = document.getElementById('interiorDiv');
@@ -1528,6 +1642,15 @@
         }
 
         function abrirModalResumen() {
+
+            const form = document.getElementById('checkoutForm');
+
+            // Verifica la validez nativa de todos los <input required>
+            if (!form.checkValidity()) {
+                // Muestra los mensajes de error nativos del navegador
+                form.reportValidity();
+                return;
+            }
             let resumen = document.getElementById('order-summary');
             resumen.innerHTML = ''; // Limpiar contenido previo
 
@@ -1604,8 +1727,31 @@
             const invoiceSection = document.getElementById('invoiceFields');
             if (this.value === 'yes') {
                 invoiceSection.style.display = 'block';
+                document.getElementById('invoice_rfc').required = true;
+                document.getElementById('invoice_name').required = true;
+                document.getElementById('invoice_regimen').required = true;
+                document.getElementById('invoice_cfdi_use').required = true;
+                document.getElementById('invoice_street').required = true;
+                document.getElementById('invoice_number').required = true;
+                document.getElementById('invoice_colonia').required = true;
+                document.getElementById('invoice_city').required = true;
+                document.getElementById('invoice_state').required = true;
+                document.getElementById('invoice_zip').required = true;
+                document.getElementById('invoice_country').required = true;
             } else {
                 invoiceSection.style.display = 'none';
+                // Quitar required
+                document.getElementById('invoice_rfc').required = false;
+                document.getElementById('invoice_name').required = false;
+                document.getElementById('invoice_regimen').required = false;
+                document.getElementById('invoice_cfdi_use').required = false;
+                document.getElementById('invoice_street').required = false;
+                document.getElementById('invoice_number').required = false;
+                document.getElementById('invoice_colonia').required = false;
+                document.getElementById('invoice_city').required = false;
+                document.getElementById('invoice_state').required = false;
+                document.getElementById('invoice_zip').required = false;
+                document.getElementById('invoice_country').required = false;
             }
         });
 
@@ -1875,9 +2021,20 @@
             }
             carrito[producto]++;
             actualizarCarrito();
+
+            document.getElementById('comprar-ya').style.display = 'none';
         }
 
-        document.getElementById('floating-button').addEventListener('click', function() {
+        function scrollToProductos() {
+            const seccionProductos = document.getElementById('productos');
+            if (seccionProductos) {
+                seccionProductos.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        document.getElementById('comprar-ya').addEventListener('click', function() {
             // Opción 1: desplazamiento suave nativo
             document.getElementById('productos').scrollIntoView({
                 behavior: 'smooth'
@@ -1896,6 +2053,10 @@
                 }
             }
             actualizarCarrito();
+            // Si el carrito queda vacío, volvemos a mostrar el botón
+            if (Object.keys(carrito).length === 0) {
+                document.getElementById('comprar-ya').style.display = 'block';
+            }
         }
 
         function actualizarCarrito() {
@@ -1908,12 +2069,12 @@
                 li.classList.add('cart-item');
 
                 li.innerHTML = `
-            <div class="cart-item-info">
-                <img src="${productos[producto].imagen}" alt="${productos[producto].nombre}">
-                <span>${productos[producto].nombre} (x${carrito[producto]})</span>
-            </div>
-            <button onclick="eliminarDelCarrito('${producto}')">❌</button>
-        `;
+    <div class="cart-item-info">
+        <img src="${productos[producto].imagen}" alt="${productos[producto].nombre}">
+        <span>${productos[producto].nombre} (x${carrito[producto]})</span>
+    </div>
+    <button onclick="eliminarDelCarrito('${producto}')">❌</button>
+    `;
 
                 cartItems.appendChild(li);
             });

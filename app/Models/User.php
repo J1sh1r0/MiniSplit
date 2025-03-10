@@ -40,6 +40,15 @@ class User extends Authenticatable
         'invoice_name',
         'invoice_regimen',
         'invoice_cfdi_use',
+        // Nueva dirección de facturación
+        'invoice_street',
+        'invoice_number',
+        'invoice_interior',
+        'invoice_colonia',
+        'invoice_city',
+        'invoice_state',
+        'invoice_zip',
+        'invoice_country',
 
     ];
 

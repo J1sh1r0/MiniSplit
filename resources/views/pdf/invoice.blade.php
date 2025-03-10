@@ -7,21 +7,42 @@
 </head>
 <body style="font-family: Arial, sans-serif; font-size: 14px;">
     <h1>Factura de tu compra</h1>
+
+    <!-- Datos principales de la factura -->
     <p><strong>Folio:</strong> {{ $user->folio }}</p>
     <p><strong>RFC:</strong> {{ $user->invoice_rfc }}</p>
     <p><strong>Razón Social:</strong> {{ $user->invoice_name }}</p>
     <p><strong>Régimen Fiscal:</strong> {{ $user->invoice_regimen }}</p>
     <p><strong>Uso de CFDI:</strong> {{ $user->invoice_cfdi_use }}</p>
+
     <hr>
-    <h2>Información de envío:</h2>
-    <p><strong>Calle:</strong> {{ $user->address }} {{ $user->number }}</p>
-    @if($user->no_interior)
-        <p><strong>Interior:</strong> {{ $user->no_interior }}</p>
+
+    <!-- Dirección de facturación -->
+    <h2>Información de facturación</h2>
+    <p><strong>Calle (fact.):</strong> {{ $user->invoice_street }} {{ $user->invoice_number }}</p>
+    @if($user->invoice_interior)
+        <p><strong>Interior (fact.):</strong> {{ $user->invoice_interior }}</p>
     @endif
-    <p><strong>Colonia:</strong> {{ $user->colonia }}</p>
-    <p><strong>Ciudad:</strong> {{ $user->city }}, {{ $user->state }}</p>
-    <p><strong>C.P.:</strong> {{ $user->zip }}</p>
+    <p><strong>Colonia (fact.):</strong> {{ $user->invoice_colonia }}</p>
+    <p><strong>Ciudad (fact.):</strong> {{ $user->invoice_city }}, {{ $user->invoice_state }}</p>
+    <p><strong>C.P. (fact.):</strong> {{ $user->invoice_zip }}</p>
+    <p><strong>País (fact.):</strong> {{ $user->invoice_country }}</p>
+
     <hr>
+
+    <!-- Dirección de envío -->
+    <h2>Información de envío</h2>
+    <p><strong>Calle (envío):</strong> {{ $user->address }} {{ $user->number }}</p>
+    @if($user->no_interior)
+        <p><strong>Interior (envío):</strong> {{ $user->no_interior }}</p>
+    @endif
+    <p><strong>Colonia (envío):</strong> {{ $user->colonia }}</p>
+    <p><strong>Ciudad (envío):</strong> {{ $user->city }}, {{ $user->state }}</p>
+    <p><strong>C.P. (envío):</strong> {{ $user->zip }}</p>
+
+    <hr>
+
+    <!-- Listado de productos -->
     <h3>Productos:</h3>
     <table width="100%" border="1" cellpadding="5" cellspacing="0">
         <thead>
@@ -40,6 +61,7 @@
                     $precio = 0;
                     if($producto === 'Minisplit 1') $precio = 7599;
                     if($producto === 'Minisplit 2') $precio = 14900;
+
                     $subtotal = $precio * $cantidad;
                     $total += $subtotal;
                 @endphp
@@ -51,6 +73,7 @@
             @endforeach
         </tbody>
     </table>
-    <h3 style="text-align: right">Total: ${{ number_format($total, 2) }}</h3>
+
+    <h3 style="text-align: right;">Total: ${{ number_format($total, 2) }}</h3>
 </body>
 </html>

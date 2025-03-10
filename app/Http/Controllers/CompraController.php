@@ -41,6 +41,15 @@ class CompraController extends Controller
             'invoice_name'     => 'required_if:requires_invoice,1|max:255',
             'invoice_regimen'  => 'required_if:requires_invoice,1|max:255',
             'invoice_cfdi_use' => 'required_if:requires_invoice,1|max:255',
+            // Dirección de facturación (solo si requiere_invoice = true)
+            'invoice_street'    => 'required_if:requires_invoice,1|max:255',
+            'invoice_number'    => 'required_if:requires_invoice,1|max:255',
+            'invoice_interior'  => 'nullable|string|max:255',
+            'invoice_colonia'   => 'required_if:requires_invoice,1|max:255',
+            'invoice_city'      => 'required_if:requires_invoice,1|max:255',
+            'invoice_state'     => 'required_if:requires_invoice,1|max:255',
+            'invoice_zip'       => 'required_if:requires_invoice,1|max:10',
+            'invoice_country'   => 'required_if:requires_invoice,1|max:255',
 
         ]);
 
@@ -70,6 +79,15 @@ class CompraController extends Controller
             'invoice_name'     => $request->invoice_name,
             'invoice_regimen'  => $request->invoice_regimen,
             'invoice_cfdi_use' => $request->invoice_cfdi_use,
+            // Dirección de facturación
+            'invoice_street'   => $request->invoice_street,
+            'invoice_number'   => $request->invoice_number,
+            'invoice_interior' => $request->invoice_interior,
+            'invoice_colonia'  => $request->invoice_colonia,
+            'invoice_city'     => $request->invoice_city,
+            'invoice_state'    => $request->invoice_state,
+            'invoice_zip'      => $request->invoice_zip,
+            'invoice_country'  => $request->invoice_country,
         ]);
 
         // Si es técnico, guardar el video de verificación
