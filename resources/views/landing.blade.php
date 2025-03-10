@@ -634,6 +634,40 @@
             }
         }
 
+        /* 🔹 Menú Responsive */
+        .menu-icon {
+            display: none;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .menu-icon:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .menu-icon {
+                display: block;
+            }
+
+            #navbar ul {
+                display: none;
+                flex-direction: column;
+                background: rgba(7, 43, 242, 0.9);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                padding: 20px;
+                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            #navbar ul.active {
+                display: flex;
+            }
+        }
+
         #caracteristicas {
             background: linear-gradient(to bottom, #f5f5f5, white);
             padding: 60px 20px;
@@ -982,6 +1016,49 @@
                 width: 100% !important;
             }
         }
+
+        /* 🔹 Menú móvil */
+        #mobile-menu {
+            z-index: 9999;
+            /* Asegura que esté por encima de todo */
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.9);
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0s linear 0.3s;
+        }
+
+        /* 🔹 Muestra el menú con transición */
+        #mobile-menu.show {
+            pointer-events: auto;
+            opacity: 1;
+            transform: scale(1);
+            visibility: visible;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        /* 🔹 Ajusta el botón de cierre */
+        #close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        #close-menu:hover {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -1179,17 +1256,16 @@
     </div>
 
 
-
-
     <!-- 🔹 Barra de Navegación Mejorada -->
     <header id="navbar"
         class="fixed top-0 w-full z-50 bg-gradient-to-r from-[#072BF2] to-[#4B75F2] shadow-lg backdrop-blur-lg transition-all duration-300">
         <div class="container mx-auto flex justify-between items-center py-3 px-8">
 
             <!-- 🔹 Logo -->
-            <h1 class="text-2xl font-bold text-white cursor-pointer tracking-wide">INXPLIT</h1 <!-- 🔹 Menú de
-                Navegación -->
-            <nav class="flex flex-col md:flex-row md:space-x-6 text-white">
+            <h1 class="text-2xl font-bold text-white cursor-pointer tracking-wide">INXPLIT</h1>
+
+            <!-- 🔹 Menú de Navegación -->
+            <nav class="hidden md:flex flex-col md:flex-row md:space-x-6 text-white">
                 <a href="#bienvenida" class="nav-link">Inicio</a>
                 <a href="#videos" class="nav-link">Videos Destacados</a>
                 <a href="#beneficios-minisplit" class="nav-link">Beneficios</a>
@@ -1197,21 +1273,25 @@
                 <a href="#productos" class="nav-link">Minisplits</a>
                 <a href="#paquetes-tecnicos" class="nav-link">Paquetes Técnicos</a>
                 <a href="#contacto" class="nav-link">Contacto</a>
+                <!-- Icono del carrito -->
+                <div id="cart-container" class="relative cursor-pointer">
+                    <button id="cart-button" class="text-white text-2xl">
+                        🛒 <span id="cart-count" class="bg-red-500 text-white text-sm px-2 py-1 rounded-full">0</span>
+                    </button>
+                </div>
             </nav>
 
             <!-- 🔹 Menú Hamburguesa para móviles -->
-            <button id="menu-toggle" class="md:hidden text-3xl text-white focus:outline-none">
-                ☰
-            </button>
+            <div class="md:hidden flex items-center">
+                <button id="menu-toggle" class="text-3xl text-white focus:outline-none">☰</button>
+            </div>
         </div>
     </header>
 
     <!-- 🔹 Menú móvil -->
     <div id="mobile-menu"
-        class="hidden md:hidden fixed inset-0 bg-black bg-opacity-90 flex flex-col justify-center items-center text-white space-y-6 text-2xl overflow-y-auto  z-[9999]">
-
+        class="hidden fixed inset-0 bg-black bg-opacity-90 flex flex-col justify-center items-center text-white space-y-6 text-2xl overflow-y-auto">
         <button id="close-menu" class="absolute top-5 right-5 text-3xl">✖</button>
-
         <a href="#bienvenida" class="nav-link">Inicio</a>
         <a href="#videos" class="nav-link">Videos Destacados</a>
         <a href="#beneficios-minisplit" class="nav-link">Beneficios</a>
@@ -1491,7 +1571,7 @@
                         <li>✅ Gratis 1 sacabocado para pared ($500)</li>
                         <li>🎟 Entra en rifa de 1 recuperadora de refrigerante ($13,000)</li>
                     </ul>
-                    <button
+                    <button 
                         class="mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95">
                         🛒 Comprar Ahora
                     </button>
@@ -1605,26 +1685,38 @@
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3/dist/js/splide.min.js"></script>
 
     <script>
-        const menuToggle = document.getElementById("menu-toggle");
-        const mobileMenu = document.getElementById("mobile-menu");
-        const closeMenuBtn = document.getElementById("close-menu");
-        const navLinks = document.querySelectorAll("#mobile-menu .nav-link");
+        document.addEventListener("DOMContentLoaded", function() {
+            const mobileMenu = document.getElementById("mobile-menu");
+            const menuToggle = document.getElementById("menu-toggle");
+            const closeMenu = document.getElementById("close-menu");
+            const mobileLinks = document.querySelectorAll("#mobile-menu a");
 
-        menuToggle.addEventListener("click", () => {
-            // Muestra el overlay
-            mobileMenu.classList.remove("hidden");
-        });
+            // 🔹 Alternar menú
+            menuToggle.addEventListener("click", function() {
+                const isMenuOpen = mobileMenu.classList.contains("show");
 
-        closeMenuBtn.addEventListener("click", () => {
-            // Oculta el overlay
-            mobileMenu.classList.add("hidden");
-        });
-
-        navLinks.forEach(link => {
-            link.addEventListener("click", () => {
-                // Al hacer clic en cualquier sección, cierra el menú móvil
-                mobileMenu.classList.add("hidden");
+                if (isMenuOpen) {
+                    closeNavMenu();
+                } else {
+                    openNavMenu();
+                }
             });
+
+            // 🔹 Cierra el menú al hacer clic en el botón ✖
+            closeMenu.addEventListener("click", closeNavMenu);
+
+            // 🔹 Cierra el menú al hacer clic en cualquier opción
+            mobileLinks.forEach(link => {
+                link.addEventListener("click", closeNavMenu);
+            });
+
+            function openNavMenu() {
+                mobileMenu.classList.add("show");
+            }
+
+            function closeNavMenu() {
+                mobileMenu.classList.remove("show");
+            }
         });
 
         function toggleInterior() {
@@ -1968,15 +2060,6 @@
         });
 
         // <!--🔹Script para el menú-- >
-        document.getElementById("menu-toggle").addEventListener("click", function() {
-            let menu = document.getElementById("mobile-menu");
-            menu.classList.remove("hidden");
-            setTimeout(() => {
-                menu.classList.remove("opacity-0", "scale-95");
-                menu.classList.add("opacity-100", "scale-100");
-            }, 10);
-        });
-
         document.getElementById("close-menu").addEventListener("click", function() {
             let menu = document.getElementById("mobile-menu");
             menu.classList.remove("opacity-100", "scale-100");
@@ -1996,6 +2079,9 @@
                 }, 300);
             });
         });
+
+        // También cerramos el menú cuando se hace clic en cualquiera de los enlaces
+
 
         window.addEventListener('scroll', function() {
             document.getElementById('navbar').classList.toggle('nav-active', window.scrollY > 50);
