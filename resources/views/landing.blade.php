@@ -877,7 +877,7 @@
                     class="feature-card bg-gradient-to-b from-white to-gray-100 p-6 rounded-xl shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-2 flex flex-col items-center text-center">
                     <img src="{{ asset('img/icono-inverter.png') }}" alt="Inverter" class="w-20 h-20">
                     <h3 class="text-2xl font-bold mt-4 text-[#072BF2]">Tecnología Inverter</h3>
-                    <p class="mt-2 text-gray-700">Ahorra hasta un 40% en consumo eléctrico y proporciona un
+                    <p class="mt-2 text-gray-700">Ahorra hasta un 60% en consumo eléctrico y proporciona un
                         enfriamiento
                         más eficiente.</p>
                 </div>
@@ -1042,7 +1042,7 @@
                 <h3 class="text-2xl font-semibold text-gray-800">Confirmación Requerida</h3>
                 <p class="text-gray-600 mt-2">
                     Para acceder a los beneficios, debes subir un video mostrando tu equipo de trabajo
-                    (bandas de vacío, manómetros, herramientas, etc.).
+                    (bombas de vacío, manómetros, herramientas, etc.).
                 </p>
             </div>
 
@@ -1054,7 +1054,7 @@
                     <p class="mt-4 text-lg text-gray-700">Obtienes los siguientes beneficios:</p>
                     <ul class="mt-4 text-left text-gray-600">
                         <li>✅ Gratis 1 sacabocado para pared ($500)</li>
-                        <li>🎟 Entra en rifa de 1 recuperadora de refrigerante ($13000)</li>
+                        <li>🎟 Entra en rifa de 1 recuperadora de refrigerante ($13,000)</li>
                     </ul>
                     <button
                         class="buy-button mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95"
@@ -1069,10 +1069,10 @@
                     <h3 class="text-3xl font-bold text-[#072BF2]">Comprando 3 Equiposo más</h3>
                     <p class="mt-4 text-lg text-gray-700">Obtienes los siguientes beneficios:</p>
                     <ul class="mt-4 text-left text-gray-600">
-                        <li>✅ Gratis 2 sacabocados para pared ($1000)</li>
-                        <li>🎟 Entra en rifa de 1 recuperadora de refrigerante ($13000)</li>
-                        <li>🎟 Entra en rifa de 1 kit de manómetros especiales ($1900)</li>
-                        <li>🎟 Entra en rifa de 1 kit de herramientas para tubería ($1500)</li>
+                        <li>✅ Gratis 2 sacabocados para pared ($1,000)</li>
+                        <li>🎟 Entra en rifa de 1 recuperadora de refrigerante ($13,000)</li>
+                        <li>🎟 Entra en rifa de 1 kit de manómetros especiales ($1,900)</li>
+                        <li>🎟 Entra en rifa de 1 kit de herramientas para tubería ($1,500)</li>
                     </ul>
                     <button
                         class="buy-button mt-4 w-full py-4 text-lg bg-[#072BF2] text-white font-semibold rounded-lg shadow-md hover:bg-[#4B75F2] hover:scale-105 transition active:scale-95"
@@ -1120,7 +1120,7 @@
 
                 <!-- Opción de Llamada Directa -->
                 <div class="mt-6 text-center">
-                    <p class="text-gray-300">¿Prefieres hablar directamente?</p>
+                    <p class="text-gray-300">Habla con un especialista ahora mismo!!</p>
                     <a href="https://eldeseo.a.gdms.cloud/click2call?from_user=webrtc_trunk_1&to_user=service"
                         id="callButton"
                         class="mt-2 inline-block w-full p-3 bg-green-500 hover:bg-green-600 transition-all duration-300 text-white font-bold rounded-lg shadow-lg transform hover:scale-105 active:scale-95">
