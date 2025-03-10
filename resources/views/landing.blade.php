@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LandingMinisplit</title>
+    <title>INXPLIT</title>
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -146,6 +146,8 @@
             }
         }
 
+        /* ------------------------------------------------------------------------- */
+
         #bienvenida {
             background: url('{{ asset('img/aufit-minisplit4.jpg') }}') no-repeat center center;
             background-size: cover;
@@ -228,6 +230,8 @@
             /* Evita que los elementos internos sobrepasen la pantalla */
             overflow-x: hidden;
         }
+
+        /* ------------------------------------------------------------------------- */
 
         #navbar {
             position: fixed;
@@ -326,6 +330,8 @@
             }
         }
 
+        /* ------------------------------------------------------------------------- */
+
         #caracteristicas {
             background: linear-gradient(to bottom, #f5f5f5, white);
             padding: 60px 20px;
@@ -339,9 +345,22 @@
             margin-bottom: 30px;
         }
 
+        /* ------------------------------------------------------------------------- */
+
         #videos {
             padding: 70px 20px;
             background: linear-gradient(to bottom, white, #E5E7EB);
+        }
+
+        #videoCarousel {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        .splide.is-active {
+            visibility: visible !important;
+            opacity: 1 !important;
         }
 
         #videoCarousel .splide__track {
@@ -352,33 +371,46 @@
         .video-container {
             width: 100%;
             max-width: 900px;
-            height: 500px;
+            height: auto;
             margin: auto;
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1000px;
         }
 
-        .video-container iframe {
+        .video-frame {
             width: 100%;
-            height: 100%;
-            border-radius: 15px;
-            transition: transform 0.4s ease-in-out, box-shadow 0.4s;
+            height: 320px;
+            border-radius: 10px;
         }
 
-        .splide__slide.is-active .video-container iframe {
-            transform: scale(1.05) rotateX(5deg);
-            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+        .video-title {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
         }
 
         .splide__arrow {
-            background-color: rgba(7, 43, 242, 0.8) !important;
-            width: 50px;
-            height: 50px;
+            background-color: rgba(7, 43, 242, 0.9) !important;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
-            opacity: 0.6;
+            opacity: 1;
+            color: white;
+            border: none;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: opacity 0.3s, transform 0.3s;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         .splide__arrow:hover {
@@ -386,8 +418,16 @@
             transform: scale(1.1);
         }
 
+        .splide__arrow--prev {
+            left: -20px !important;
+        }
+
+        .splide__arrow--next {
+            right: -20px !important;
+        }
+
         .splide__pagination {
-            bottom: -10px;
+            bottom: -40px !important;
         }
 
         .splide__pagination__page {
@@ -403,19 +443,31 @@
             transform: scale(1.4);
         }
 
-        .video-overlay {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            opacity: 0;
-            transition: opacity 0.3s;
-            border-radius: 15px;
+        /* 🔹 Ajustes para móviles */
+        @media (max-width: 768px) {
+            .video-frame {
+                height: 250px;
+            }
+
+            .splide__arrow {
+                width: 40px !important;
+                height: 40px !important;
+                font-size: 18px;
+                background-color: rgba(0, 0, 0, 0.8) !important;
+                border: 2px solid white !important;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            }
+
+            .splide__arrow--prev {
+                left: -15px !important;
+            }
+
+            .splide__arrow--next {
+                right: -15px !important;
+            }
         }
 
-        .video-container:hover .video-overlay {
-            opacity: 1;
-        }
+        /* ------------------------------------------------------------------------- */
 
         /* ✅ Sección completa */
         #paquetes-tecnicos {
@@ -792,48 +844,46 @@
                             <ul class="splide__list">
                                 <li class="splide__slide">
                                     <div class="video-container relative">
-                                        <iframe width="100%" height="500"
+                                        <iframe class="video-frame"
                                             src="https://www.youtube.com/embed/6c_dtwRVQNo?start=199"
                                             allowfullscreen></iframe>
-                                        <div class="video-overlay"></div>
-                                    </div>
-                                </li>
-                                <!-- 🔹 Nuevo Video en Posición 2 -->
-                                <li class="splide__slide">
-                                    <div class="video-container relative">
-                                        <iframe width="100%" height="500"
-                                            src="https://www.youtube.com/embed/T1_iRhkI3kw" allowfullscreen></iframe>
-                                        <div class="video-overlay"></div>
-                                    </div>
-                                </li>
-                                <!-- 🔹 Nuevo Video en Posición 3 -->
-                                <li class="splide__slide">
-                                    <div class="video-container relative">
-                                        <iframe width="100%" height="500"
-                                            src="https://www.youtube.com/embed/BdzAUdm6IC8" allowfullscreen></iframe>
-                                        <div class="video-overlay"></div>
+                                        <div class="video-title">Quienes Somos?</div>
                                     </div>
                                 </li>
                                 <li class="splide__slide">
                                     <div class="video-container relative">
-                                        <iframe width="100%" height="500"
-                                            src="https://www.youtube.com/embed/E2MXFU7SNAI" allowfullscreen></iframe>
-                                        <div class="video-overlay"></div>
+                                        <iframe class="video-frame" src="https://www.youtube.com/embed/T1_iRhkI3kw"
+                                            allowfullscreen></iframe>
+                                        <div class="video-title">Activacion del Modo ECO</div>
                                     </div>
                                 </li>
                                 <li class="splide__slide">
                                     <div class="video-container relative">
-                                        <iframe width="100%" height="500"
+                                        <iframe class="video-frame" src="https://www.youtube.com/embed/BdzAUdm6IC8"
+                                            allowfullscreen></iframe>
+                                        <div class="video-title">Equipo Fisico</div>
+                                    </div>
+                                </li>
+                                <li class="splide__slide">
+                                    <div class="video-container relative">
+                                        <iframe class="video-frame" src="https://www.youtube.com/embed/E2MXFU7SNAI"
+                                            allowfullscreen></iframe>
+                                        <div class="video-title">Configuracion con Alexa</div>
+                                    </div>
+                                </li>
+                                <li class="splide__slide">
+                                    <div class="video-container relative">
+                                        <iframe class="video-frame"
                                             src="https://www.youtube.com/embed/YqutiGHpQpE?start=1"
                                             allowfullscreen></iframe>
-                                        <div class="video-overlay"></div>
+                                        <div class="video-title">Configuracion con Google Home</div>
                                     </div>
                                 </li>
                                 <li class="splide__slide">
                                     <div class="video-container relative">
-                                        <iframe width="100%" height="500"
-                                            src="https://www.youtube.com/embed/PDR0STxMQ-Q" allowfullscreen></iframe>
-                                        <div class="video-overlay"></div>
+                                        <iframe class="video-frame" src="https://www.youtube.com/embed/PDR0STxMQ-Q"
+                                            allowfullscreen></iframe>
+                                        <div class="video-title">Configuracion de App Gratuita</div>
                                     </div>
                                 </li>
                             </ul>
@@ -1180,17 +1230,24 @@
         AOS.init();
 
         document.addEventListener("DOMContentLoaded", function() {
-            new Splide("#videoCarousel", {
+            let splide = new Splide("#videoCarousel", {
                 type: "loop",
                 perPage: 1,
                 autoplay: true,
                 interval: 5000,
-                pauseOnHover: false,
-                pauseOnFocus: false,
+                pauseOnHover: true,
                 arrows: true,
                 pagination: true,
                 speed: 800,
-            }).mount();
+            });
+
+            splide.on('mounted', function() {
+                setTimeout(() => {
+                    splide.refresh(); // 🔹 Refresca después de un breve retardo
+                }, 100);
+            });
+
+            splide.mount();
         });
 
         function toggleMenu() {
