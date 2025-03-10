@@ -730,7 +730,7 @@
         <div class="container mx-auto flex justify-between items-center py-3 px-8">
 
             <!-- 🔹 Logo -->
-            <h1 class="text-2xl font-bold text-white cursor-pointer tracking-wide">LandingMinisplit</h1>
+            <h1 class="text-2xl font-bold text-white cursor-pointer tracking-wide">INXPLIT</h1>
 
             <!-- 🔹 Menú de Navegación -->
             <nav class="hidden md:flex flex-col md:flex-row md:space-x-6 text-white">
