@@ -262,7 +262,7 @@
 
     <!-- 🔹 Menú móvil -->
     <div id="mobile-menu"
-        class="hidden fixed inset-0 bg-black bg-opacity-90 flex flex-col justify-center items-center text-white space-y-6 text-2xl overflow-y-auto">
+        class="hidden fixed inset-0 bg-black bg-opacity-90 flex-col justify-center items-center text-white space-y-6 text-2xl overflow-y-auto">
         <button id="close-menu" class="absolute top-5 right-5 text-3xl">✖</button>
         <a href="#bienvenida" class="nav-link">Inicio</a>
         <a href="#videos" class="nav-link">Videos Destacados</a>
