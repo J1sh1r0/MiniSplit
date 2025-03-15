@@ -1,3 +1,22 @@
+document.getElementById('pagarStripe').addEventListener('click', function() {
+    fetch('/checkout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({
+            total: calcularTotal() // Obtiene el total desde el carrito
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.url) {
+            window.location.href = data.url; // Redirige a la pasarela de pago de Stripe
+        }
+    })
+    .catch(error => console.error('❌ Error al procesar el pago con Stripe:', error));
+});
 
 function toggleInterior() {
     let isApartment = document.getElementById('is_apartment').value;

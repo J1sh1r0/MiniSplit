@@ -19,6 +19,7 @@
     <script
         src="https://www.paypal.com/sdk/js?client-id=AVfyUgSurCNV0md7yLddN8uUk2PNktWedJE2RAjiSercq66qzOORbJl5P0riBxugUlSwtc2WeN1jMGQQ&currency=MXN">
     </script>
+    <script src="https://js.stripe.com/v3/"></script>
 
     <!-- Cargar archivos de estilos correctamente -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -50,11 +51,16 @@
         <div class="modal-content">
             <h2>Resumen de Compra</h2>
             <div id="order-summary"></div>
-            <div id="paypal-button-container"></div> <!-- Aquí se cargará el botón de PayPal -->
+
+            <!-- Opciones de pago -->
+            <div id="payment-options">
+                <!-- Nuevo botón de Stripe -->
+                <button id="pagarStripe" class="btn btn-primary">Pagar con Stripe</button>
+            </div>
+
             <button class="btn btn-danger" onclick="cerrarModalResumen()">Cancelar</button>
         </div>
     </div>
-
 
     <!-- 🛒 Modal de Finalizar Compra -->
     <div id="checkoutModal" class="modal">
