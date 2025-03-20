@@ -173,8 +173,6 @@
             background: darkred;
         }
 
-
-
         /* 🛒 Estilos del Modal */
         .modal {
             display: none;
@@ -236,27 +234,96 @@
             margin-top: 15px;
         }
 
+        /* Estilos para el botón Confirmar Compra */
         button {
-            background: #072BF2;
+            background-color: #072BF2;
+            /* Color sólido de fondo azul */
             color: white;
-            padding: 10px;
-            border: none;
+            /* Texto blanco */
+            padding: 12px 20px;
             border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
             cursor: pointer;
-            width: 48%;
-            transition: 0.3s;
+            width: 100%;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
+        /* Hover en el botón Confirmar Compra */
         button:hover {
-            background: #4B75F2;
+            background-color: #4B75F2;
+            /* Color de fondo más claro al pasar el mouse */
+            transform: scale(1.05);
+            /* Efecto de agrandado */
         }
 
+        /* Estilo para el botón Confirmar Compra */
+        .confirmar-btn {
+            background-color: #072BF2;
+            /* Fondo de color azul */
+            color: white;
+            /* Texto blanco */
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Hover en el botón Confirmar Compra */
+        .confirmar-btn:hover {
+            background-color: #4B75F2;
+            /* Un color azul más claro al hacer hover */
+            transform: scale(1.05);
+            /* Efecto de agrandado */
+        }
+
+        /* Estilos para el botón Cancelar */
         .cancel-btn {
-            background: red;
+            background-color: #FF4D4D;
+            /* Color de fondo rojo brillante */
+            color: white;
+            /* Texto blanco */
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            margin-bottom: 15px;
         }
 
+        /* Hover en el botón Cancelar */
         .cancel-btn:hover {
-            background: darkred;
+            background-color: darkred;
+            /* Color más oscuro al pasar el mouse */
+            transform: scale(1.05);
+            /* Efecto de agrandado */
+        }
+
+
+        /* Para hacerlos siempre visibles y accesibles en pantallas móviles */
+        @media (max-width: 768px) {
+
+            .confirmar-btn,
+            .cancel-btn {
+                width: 100%;
+                /* Los botones ocuparán el 100% del ancho en móviles */
+                padding: 15px 10px;
+                /* Más espacio interno en dispositivos móviles */
+                font-size: 18px;
+                /* Un poco más grande el texto */
+            }
         }
 
         /* 🔹 Ocultar Sección Técnico */
@@ -274,6 +341,47 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        /* Estilo para el botón Pagar con Stripe */
+        #pagarStripe {
+            background-color: #28a745;
+            /* Fondo verde */
+            color: white;
+            /* Texto blanco */
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            /* Ocupa el 100% del ancho disponible */
+            margin-top: 15px;
+            /* Espacio superior */
+            margin-bottom: 15px;
+            /* Espacio inferior */
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Hover en el botón Pagar con Stripe */
+        #pagarStripe:hover {
+            background-color: #218838;
+            /* Un verde más oscuro al pasar el cursor */
+            transform: scale(1.05);
+            /* Efecto de agrandado */
+        }
+
+        /* Ajustes para pantallas pequeñas */
+        @media (max-width: 768px) {
+            #pagarStripe {
+                width: 100%;
+                /* El botón ocupará el 100% del ancho en móviles */
+                padding: 15px 10px;
+                /* Aumentar padding para pantallas pequeñas */
+                font-size: 18px;
+                /* Aumentar el tamaño de la fuente en dispositivos móviles */
             }
         }
 
@@ -425,7 +533,7 @@
             color: white;
             position: relative;
             padding: 100px 20px 40px;
-        }        
+        }
 
         /* Ajusta los valores a tu preferencia */
         .btn-big {
@@ -921,7 +1029,7 @@
         /* Botón flotante */
         #comprar-ya {
             position: fixed;
-            bottom: 80px;   
+            bottom: 80px;
             /* Ajusta la distancia desde abajo */
             right: 20px;
             /* Ajusta la distancia desde la derecha */
@@ -929,12 +1037,17 @@
             /* Amarillo tipo “Gold” */
             color: #000;
             /* Texto en negro para contrastar */
-            padding: 15px 20px;
+            padding: 12px 18px;
+            /* Reduce el padding para hacerlo más corto */
             border-radius: 50px;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 16px;
+            /* Reducir el tamaño de la fuente */
             border: none;
-            width: 400px;
+            width: auto;
+            /* Hacer que el botón se ajuste a su contenido */
+            max-width: 350px;
+            /* Limitar el tamaño máximo */
             cursor: pointer;
             z-index: 9999;
             /* Que quede por encima de casi todo */
@@ -963,6 +1076,19 @@
 
         /* Ajustar el modal y las columnas en pantallas pequeñas */
         @media (max-width: 768px) {
+
+            #comprar-ya {
+                width: auto;
+                /* Ajuste automático al contenido */
+                max-width: 300px;
+                /* Limita el tamaño máximo en dispositivos móviles */
+                bottom: 40px;
+                /* Ajusta la distancia desde abajo */
+                padding: 10px 15px;
+                /* Reduce aún más el padding en pantallas pequeñas */
+                font-size: 14px;
+                /* Ajuste del tamaño de la fuente */
+            }
 
             /* Que la rejilla de 3 columnas sea 1 sola columna en móvil */
             .form-group-3 {

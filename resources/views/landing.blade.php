@@ -226,7 +226,7 @@
 
                 <!-- Botones -->
                 <div class="form-actions">
-                    <button type="button" onclick="abrirModalResumen()">Confirmar Compra</button>
+                    <button type="button" class="confirmar-btn" onclick="abrirModalResumen()">ConfirmarCompra</button>
                     <button type="button" class="cancel-btn" onclick="cerrarModal()">Cancelar</button>
                 </div>
             </form>
