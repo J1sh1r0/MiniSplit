@@ -835,6 +835,7 @@
             opacity: 0;
             transition: opacity 0.3s;
             border-radius: 15px;
+            pointer-events: none; /* <- esto permite que los clics pasen al iframe */
         }
 
         .video-container:hover .video-overlay {
