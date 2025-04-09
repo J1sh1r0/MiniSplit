@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function obtenerPrecio(producto) {
         const precios = {
-            "Minisplit 1": 7599,
+            "Minisplit 1": 20,
             "Minisplit 2": 14900,
         };
         return precios[producto] || 0;

@@ -1,3 +1,6 @@
+// Inicializa Stripe con tu clave pública (desde .env)
+const stripe = Stripe('{{ env("STRIPE_KEY") }}');
+
 document.getElementById('pagarStripe').addEventListener('click', function() {
     fetch('/checkout', {
         method: 'POST',
@@ -17,6 +20,33 @@ document.getElementById('pagarStripe').addEventListener('click', function() {
     })
     .catch(error => console.error('❌ Error al procesar el pago con Stripe:', error));
 });
+
+// document.getElementById('pagarStripe').addEventListener('click', function() {
+//     fetch('/checkout', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+//         },
+//         body: JSON.stringify({
+//             total: calcularTotal() // Obtiene el total desde el carrito
+//         })
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         if (data.error) {
+//             console.error('Error:', data.error);
+//             alert('Error al procesar el pago: ' + data.error);
+//         } else if (data.sessionId) {
+//             // Redirige al checkout de Stripe usando el sessionId
+//             return stripe.redirectToCheckout({ sessionId: data.sessionId });
+//         }
+//     })
+//     .catch(error => {
+//         console.error('❌ Error al procesar el pago con Stripe:', error);
+//         alert('Error al conectar con Stripe. Por favor, intenta nuevamente.');
+//     });
+// });
 
 function toggleInterior() {
     let isApartment = document.getElementById('is_apartment').value;
@@ -79,36 +109,36 @@ function abrirModalResumen() {
     }
     modalResumen.style.display = 'block';
 
-    // 🔹 Verificar que el contenedor de PayPal existe antes de renderizar el botón
-    const paypalContainer = document.getElementById('paypal-button-container');
-    if (!paypalContainer) {
-        console.error("❌ Error: No se encontró el contenedor de PayPal.");
-        return;
-    }
+    // // 🔹 Verificar que el contenedor de PayPal existe antes de renderizar el botón
+    // const paypalContainer = document.getElementById('paypal-button-container');
+    // if (!paypalContainer) {
+    //     console.error("❌ Error: No se encontró el contenedor de PayPal.");
+    //     return;
+    // }
 
-    // Limpiar antes de renderizar solo si no hay un botón ya cargado
-    if (!paypalContainer.hasChildNodes()) {
-        paypalContainer.innerHTML = ''; 
+    // // Limpiar antes de renderizar solo si no hay un botón ya cargado
+    // if (!paypalContainer.hasChildNodes()) {
+    //     paypalContainer.innerHTML = '';
 
-        paypal.Buttons({
-            createOrder: function (data, actions) {
-                return actions.order.create({
-                    purchase_units: [{ amount: { value: total } }],
-                });
-            },
-            onApprove: function (data, actions) {
-                return actions.order.capture().then(function (details) {
-                    console.log("✅ Pago aprobado:", details);
-                    procesarCompra();
-                    cerrarModalResumen();
-                    cerrarModal();
-                });
-            },
-            onError: function (err) {
-                console.error("❌ Error en PayPal:", err);
-            }
-        }).render('#paypal-button-container');
-    }
+    //     paypal.Buttons({
+    //         createOrder: function (data, actions) {
+    //             return actions.order.create({
+    //                 purchase_units: [{ amount: { value: total } }],
+    //             });
+    //         },
+    //         onApprove: function (data, actions) {
+    //             return actions.order.capture().then(function (details) {
+    //                 console.log("✅ Pago aprobado:", details);
+    //                 procesarCompra();
+    //                 cerrarModalResumen();
+    //                 cerrarModal();
+    //             });
+    //         },
+    //         onError: function (err) {
+    //             console.error("❌ Error en PayPal:", err);
+    //         }
+    //     }).render('#paypal-button-container');
+    // }
 }
 
 // ✅ Función para abrir el modal
@@ -274,24 +304,24 @@ function confirmarCompra() {
     // Mostrar modal
     document.getElementById('modal-resumen').style.display = 'block';
 
-    // Renderizar botón de PayPal
-    paypal.Buttons({
-        createOrder: function (data, actions) {
-            return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                        value: calcularTotal()
-                    }
-                }]
-            });
-        },
-        onApprove: function (data, actions) {
-            return actions.order.capture().then(function (details) {
-                alert('Pago exitoso: ' + details.payer.name.given_name);
-                procesarCompra();
-            });
-        }
-    }).render('#paypal-button-container');
+    // // Renderizar botón de PayPal
+    // paypal.Buttons({
+    //     createOrder: function (data, actions) {
+    //         return actions.order.create({
+    //             purchase_units: [{
+    //                 amount: {
+    //                     value: calcularTotal()
+    //                 }
+    //             }]
+    //         });
+    //     },
+    //     onApprove: function (data, actions) {
+    //         return actions.order.capture().then(function (details) {
+    //             alert('Pago exitoso: ' + details.payer.name.given_name);
+    //             procesarCompra();
+    //         });
+    //     }
+    // }).render('#paypal-button-container');
 
 }
 
@@ -309,7 +339,7 @@ function calcularTotal() {
 
 function obtenerPrecio(producto) {
     const precios = {
-        "Minisplit 1": 7599,
+        "Minisplit 1": 20,
         "Minisplit 2": 14900
     };
     return precios[producto] || 0;
