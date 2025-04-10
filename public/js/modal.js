@@ -1,25 +1,78 @@
 // Inicializa Stripe con tu clave pública (desde .env)
 const stripe = Stripe('{{ env("STRIPE_KEY") }}');
 
-document.getElementById('pagarStripe').addEventListener('click', function() {
+document.getElementById('pagarStripe').addEventListener('click', async function () {
+    const form = document.getElementById('checkoutForm');
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    const data = {
+        name: document.getElementById('name').value,
+        last_name: document.getElementById('last_name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value,
+        number: document.getElementById('number').value,
+        colonia: document.getElementById('colonia').value,
+        no_interior: document.getElementById('no_interior').value,
+        city: document.getElementById('city').value,
+        state: document.getElementById('state').value,
+        zip: document.getElementById('zip').value,
+        is_apartment: document.getElementById('is_apartment').value === 'yes' ? 1 : 0,
+        is_technician: document.getElementById('is_technician').value === 'yes' ? 1 : 0,
+        requires_invoice: document.getElementById('requires_invoice').value === 'yes' ? 1 : 0,
+        items: JSON.stringify(carrito),
+        total: calcularTotal()
+    };
+
+    if (data.requires_invoice) {
+        data.invoice_rfc = document.getElementById('invoice_rfc').value;
+        data.invoice_name = document.getElementById('invoice_name').value;
+        data.invoice_regimen = document.getElementById('invoice_regimen').value;
+        data.invoice_cfdi_use = document.getElementById('invoice_cfdi_use').value;
+        data.invoice_street = document.getElementById('invoice_street').value;
+        data.invoice_number = document.getElementById('invoice_number').value;
+        data.invoice_interior = document.getElementById('invoice_interior').value;
+        data.invoice_colonia = document.getElementById('invoice_colonia').value;
+        data.invoice_city = document.getElementById('invoice_city').value;
+        data.invoice_state = document.getElementById('invoice_state').value;
+        data.invoice_zip = document.getElementById('invoice_zip').value;
+        data.invoice_country = document.getElementById('invoice_country').value;
+    }
+
+    // Subir temporalmente el video si el usuario es técnico
+    if (data.is_technician && document.getElementById('verification_video').files.length > 0) {
+        const tempFormData = new FormData();
+        tempFormData.append('verification_video', document.getElementById('verification_video').files[0]);
+
+        await fetch('/guardar-video-temp', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: tempFormData
+        });
+    }
+
     fetch('/checkout', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
-        body: JSON.stringify({
-            total: calcularTotal() // Obtiene el total desde el carrito
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.url) {
+                window.location.href = data.url;
+            }
         })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.url) {
-            window.location.href = data.url; // Redirige a la pasarela de pago de Stripe
-        }
-    })
-    .catch(error => console.error('❌ Error al procesar el pago con Stripe:', error));
+        .catch(error => console.error('❌ Error al procesar el pago con Stripe:', error));
 });
+
 
 // document.getElementById('pagarStripe').addEventListener('click', function() {
 //     fetch('/checkout', {
@@ -339,7 +392,7 @@ function calcularTotal() {
 
 function obtenerPrecio(producto) {
     const precios = {
-        "Minisplit 1": 20,
+        "Minisplit 1": 7599,
         "Minisplit 2": 14900
     };
     return precios[producto] || 0;

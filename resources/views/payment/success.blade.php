@@ -53,7 +53,7 @@
 <div class="success-container">
     <div class="success-icon">✅</div>
     <div class="success-message">¡Pago Exitoso!</div>
-    <p class="success-text">Gracias por tu compra. Hemos recibido tu pago correctamente.</p>
+    <p class="success-text">Payment Gracias por tu compra. Hemos recibido tu pago correctamente.</p>
     <a href="{{ url('/') }}" class="btn-back">Volver al Inicio</a>
 </div>
 

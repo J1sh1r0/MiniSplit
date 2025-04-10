@@ -59,7 +59,7 @@
             @foreach($items as $producto => $cantidad)
                 @php
                     $precio = 0;
-                    if($producto === 'Minisplit 1') $precio = 20;
+                    if($producto === 'Minisplit 1') $precio = 7599;
                     if($producto === 'Minisplit 2') $precio = 14900;
 
                     $subtotal = $precio * $cantidad;

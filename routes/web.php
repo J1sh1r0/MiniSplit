@@ -15,6 +15,9 @@ Route::get('/', function () {
 
 Route::post('/contacto', [ContactoController::class, 'store'])->name('contacto.store');
 //Route::post('/compra', [CarritoController::class, 'procesarCompra'])->name('compra');
+Route::post('/guardar-video-temp', [\App\Http\Controllers\TempUploadController::class, 'store']);
+Route::post('/guardar-video-temp', [CompraController::class, 'guardarVideoTemp']);
+
 
 Route::post('/checkout', [StripeController::class, 'checkout'])->name('stripe.checkout');
 Route::get('/checkout/success', [StripeController::class, 'success'])->name('stripe.success');

@@ -39,7 +39,7 @@
                         // Opcional: puedes asignar un precio según la clave
                         $precio = 0;
                         if ($producto === 'Minisplit 1') {
-                            $precio = 20;
+                            $precio = 7599;
                         } elseif ($producto === 'Minisplit 2') {
                             $precio = 14900;
                         }

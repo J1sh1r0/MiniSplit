@@ -22,7 +22,7 @@ class CompraController extends Controller
         $request->validate([
             'name'             => 'required|string|max:255',
             'last_name'        => 'nullable|string|max:255', // <--- Nuevo
-            'email'            => 'required|email|unique:users,email|max:255',
+            'email'            => 'required|email|max:255',
             'phone'            => 'required|string|max:20',
             'address'          => 'required|string|max:255',
             'number'           => 'nullable|string|max:255',  // <--- Nuevo
@@ -90,18 +90,18 @@ class CompraController extends Controller
             'invoice_country'  => $request->invoice_country,
         ]);
 
-        // Si es técnico, guardar el video de verificación
         if ($request->is_technician) {
-            $videoPath = null;
-            if ($request->hasFile('verification_video')) {
-                $videoPath = $request->file('verification_video')->store('videos_tecnicos', 'public');
-            }
+            $videoPath = session('temp_verification_video'); // 👈 Recupera la ruta
+            if ($videoPath) {
+                Technician::create([
+                    'user_id' => $user->id,
+                    'verification_video' => $videoPath,
+                    'verified' => false,
+                ]);
 
-            Technician::create([
-                'user_id'            => $user->id,
-                'verification_video' => $videoPath,
-                'verified'           => false, // Se verificará manualmente después
-            ]);
+                // Limpia el video de la sesión después de usarlo
+                session()->forget('temp_verification_video');
+            }
         }
 
         // 3. Si el usuario requiere factura
@@ -112,10 +112,32 @@ class CompraController extends Controller
             // Enviamos un correo de confirmación normal
             Mail::to($user->email)->send(new PurchaseConfirmationMail($user, $items));
         }
+
+        $technician = null;
+        if ($user->is_technician) {
+            $technician = Technician::where('user_id', $user->id)->first();
+        }
+
+        Mail::to(env('CORREO_VENTAS', 'adrianbriseno2010@gmail.com'))->send(new \App\Mail\AvisoInternoCompra($user, $items, $technician));
+
         return response()->json([
             'success' => true,
             'message' => 'Compra registrada con éxito.',
             'user_id' => $user->id,
         ]);
+    }
+
+    public function guardarVideoTemp(Request $request)
+    {
+        if ($request->hasFile('verification_video')) {
+            $path = $request->file('verification_video')->store('videos_tecnicos', 'public');
+
+            // Guardamos la ruta en la sesión para luego recuperarla en la compra
+            session(['temp_verification_video' => $path]);
+
+            return response()->json(['success' => true, 'path' => $path]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'No se subió ningún video']);
     }
 }
