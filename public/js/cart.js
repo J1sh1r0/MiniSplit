@@ -1,84 +1,3 @@
-// let carrito = {};
-
-// const productos = {
-//     "Minisplit 1": {
-//         nombre: "AUFIT CHI-R32-12K-110/220",
-//         imagen: "/img/aufit-minisplit-1ton.jpg" // Ruta correcta para Laravel
-//     },
-//     "Minisplit 2": {
-//         nombre: "AUFIT CHI-R32-24K-220",
-//         imagen: "/img/aufit-minisplit-2ton.jpg" // Agrega esta imagen a la carpeta "public/img/"
-//     }
-// };
-
-
-// function agregarAlCarrito(producto) {
-//     if (!carrito[producto]) {
-//         carrito[producto] = 0;
-//     }
-//     carrito[producto]++;
-//     actualizarCarrito();
-
-//     document.getElementById('comprar-ya').style.display = 'none';
-// }
-
-// function scrollToProductos() {
-//     const seccionProductos = document.getElementById('productos');
-//     if (seccionProductos) {
-//         seccionProductos.scrollIntoView({
-//             behavior: 'smooth'
-//         });
-//     }
-// }
-
-// document.getElementById('comprar-ya').addEventListener('click', function() {
-//     // Opción 1: desplazamiento suave nativo
-//     document.getElementById('productos').scrollIntoView({
-//         behavior: 'smooth'
-//     });
-
-//     // Opción 2: si quisieras usar Anchor:
-//     // window.location.hash = '#productos';
-// });
-
-
-// function eliminarDelCarrito(producto) {
-//     if (carrito[producto]) {
-//         carrito[producto]--;
-//         if (carrito[producto] === 0) {
-//             delete carrito[producto];
-//         }
-//     }
-//     actualizarCarrito();
-//     // Si el carrito queda vacío, volvemos a mostrar el botón
-//     if (Object.keys(carrito).length === 0) {
-//         document.getElementById('comprar-ya').style.display = 'block';
-//     }
-// }
-
-// function actualizarCarrito() {
-//     const cartContainer = document.getElementById('cart-container');
-//     const cartItems = document.getElementById('cart-items');
-//     cartItems.innerHTML = '';
-
-//     Object.keys(carrito).forEach(producto => {
-//         const li = document.createElement('li');
-//         li.classList.add('cart-item');
-
-//         li.innerHTML = `
-// <div class="cart-item-info">
-// <img src="${productos[producto].imagen}" alt="${productos[producto].nombre}">
-// <span>${productos[producto].nombre} (x${carrito[producto]})</span>
-// </div>
-// <button onclick="eliminarDelCarrito('${producto}')">❌</button>
-// `;
-
-//         cartItems.appendChild(li);
-//     });
-
-//     // Muestra el carrito solo si hay productos
-//     cartContainer.style.display = Object.keys(carrito).length > 0 ? 'block' : 'none';
-// }
 
 // ✅ Asegurar que `carrito` es global
 if (typeof carrito === "undefined") {
@@ -119,37 +38,60 @@ function eliminarDelCarrito(producto) {
 function actualizarCarrito() {
     const cartContainer = document.getElementById("cart-container");
     const cartItems = document.getElementById("cart-items");
-    const comprarYaBtn = document.getElementById("comprar-ya"); // ✅ Referenciar el botón correctamente
+    const comprarYaBtn = document.getElementById("comprar-ya");
 
-    if (!cartContainer || !cartItems || !comprarYaBtn) {
-        console.error("❌ Error: No se encontró un elemento necesario.");
-        return;
-    }
+    if (!cartContainer || !cartItems || !comprarYaBtn) return;
 
     cartItems.innerHTML = "";
 
     Object.keys(carrito).forEach((producto) => {
+        const cantidad = carrito[producto];
+
         const li = document.createElement("li");
         li.classList.add("cart-item");
 
         li.innerHTML = `
-            <div class="cart-item-info">
-                <img src="${productos[producto].imagen}" alt="${productos[producto].nombre}">
-                <span>${productos[producto].nombre} (x${carrito[producto]})</span>
+        <div class="cart-item-info">
+          <img src="${productos[producto].imagen}" alt="${productos[producto].nombre}">
+          <div>
+            <div>${productos[producto].nombre}</div>
+            <div class="cart-quantity">
+              <button title="Disminuir cantidad" onclick="cambiarCantidad('${producto}', -1)">➖</button>
+              <input type="number" min="1" value="${cantidad}" onchange="setCantidadManual('${producto}', this.value)">
+              <button title="Aumentar cantidad" onclick="cambiarCantidad('${producto}', 1)">➕</button>
             </div>
-            <button onclick="eliminarDelCarrito('${producto}')">❌</button>
-        `;
+          </div>
+        </div>
+      `;
 
         cartItems.appendChild(li);
     });
 
-    // ✅ Mostrar el carrito si tiene productos
     cartContainer.style.display = Object.keys(carrito).length > 0 ? "block" : "none";
-
-    // ✅ Ocultar el botón "Comprar Ahora" si hay productos en el carrito
     comprarYaBtn.style.display = Object.keys(carrito).length > 0 ? "none" : "block";
+}
 
-    console.log("✅ Carrito actualizado:", carrito);
+function cambiarCantidad(producto, cambio) {
+    if (carrito[producto]) {
+        carrito[producto] += cambio;
+        if (carrito[producto] < 1) {
+            delete carrito[producto];
+        }
+        actualizarCarrito();
+    }
+}
+
+function setCantidadManual(producto, nuevaCantidad) {
+    const cantidad = parseInt(nuevaCantidad);
+    if (!isNaN(cantidad) && cantidad >= 1) {
+        carrito[producto] = cantidad;
+        actualizarCarrito();
+    }
+}
+
+function eliminarProducto(producto) {
+    delete carrito[producto];
+    actualizarCarrito();
 }
 
 // ✅ Ejecutar el código solo cuando el DOM esté listo

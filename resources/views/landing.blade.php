@@ -34,18 +34,21 @@
 
     <!-- Meta CSRF -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+
 </head>
 
 <body>
     <button id="comprar-ya">Comprar ahora</button>
 
     <!-- 🛒 Carrito de Compras Mejorado con Imágenes -->
-    <div id="cart-container">
+    <!-- 🛒 Carrito de Compras Mejorado -->
+    <div id="cart-container" class="cart-modal">
         <h3>🛒 Carrito de Compras</h3>
-        <ul id="cart-items"></ul>
+        <ul id="cart-items" class="cart-items-list"></ul>
         <button id="finalizar-compra" onclick="abrirModal()">Finalizar Compra</button>
-
     </div>
+
     <!-- Nueva Modal: Resumen del Pedido -->
     <div id="modal-resumen" class="modal">
         <div class="modal-content">
@@ -226,7 +229,8 @@
 
                 <!-- Botones -->
                 <div class="form-actions">
-                    <button type="button" class="confirmar-btn" onclick="abrirModalResumen()">ConfirmarCompra</button>
+                    <button type="button" class="confirmar-btn"
+                        onclick="abrirModalResumen()">ConfirmarCompra</button>
                     <button type="button" class="cancel-btn" onclick="cerrarModal()">Cancelar</button>
                 </div>
             </form>

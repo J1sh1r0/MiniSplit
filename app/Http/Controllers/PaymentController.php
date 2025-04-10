@@ -72,6 +72,6 @@ class PaymentController extends Controller
 
     public function cancel()
     {
-        return view('payment.cancel'); // Crear una vista de cancelación
+        return view('stripe.cancel'); // Crear una vista de cancelación
     }
 }

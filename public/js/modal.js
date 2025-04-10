@@ -42,7 +42,13 @@ document.getElementById('pagarStripe').addEventListener('click', async function 
         data.invoice_country = document.getElementById('invoice_country').value;
     }
 
-    // Subir temporalmente el video si el usuario es técnico
+    // Verifica si es técnico y si se subió el video
+    if (data.is_technician && document.getElementById('verification_video').files.length === 0) {
+        alert('Por favor, sube un video mostrando tu herramienta de trabajo para continuar.');
+        return; // Detiene el proceso si no hay video
+    }
+
+    // Subir el video si es necesario
     if (data.is_technician && document.getElementById('verification_video').files.length > 0) {
         const tempFormData = new FormData();
         tempFormData.append('verification_video', document.getElementById('verification_video').files[0]);
@@ -56,6 +62,7 @@ document.getElementById('pagarStripe').addEventListener('click', async function 
         });
     }
 
+    // Después de la validación, proceder con la solicitud de pago
     fetch('/checkout', {
         method: 'POST',
         headers: {
@@ -67,11 +74,12 @@ document.getElementById('pagarStripe').addEventListener('click', async function 
         .then(response => response.json())
         .then(data => {
             if (data.url) {
-                window.location.href = data.url;
+                window.location.href = data.url; // Redirige al checkout de Stripe
             }
         })
         .catch(error => console.error('❌ Error al procesar el pago con Stripe:', error));
 });
+
 
 
 // document.getElementById('pagarStripe').addEventListener('click', function() {

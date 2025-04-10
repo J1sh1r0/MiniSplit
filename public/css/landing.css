@@ -13,6 +13,7 @@
             }
         }
 
+        /* 🛒 Contenedor del carrito */
         #cart-container {
             position: fixed;
             bottom: 20px;
@@ -23,7 +24,7 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             display: none;
             z-index: 1000;
-            max-width: 280px;
+            max-width: 350px;
             font-family: 'Inter', sans-serif;
         }
 
@@ -43,8 +44,8 @@
             margin: 0;
         }
 
-        /* 🔹 Estilo de cada producto en el carrito */
-        .cart-item {
+        /* 🔹 Estilo de cada producto en el carrito clásico */
+        #cart-container .cart-item {
             background: #f0f4ff;
             color: black;
             padding: 8px;
@@ -57,7 +58,7 @@
         }
 
         /* 🖼 Imagen del producto */
-        .cart-item img {
+        #cart-container .cart-item img {
             width: 50px;
             height: 40px;
             border-radius: 5px;
@@ -65,7 +66,7 @@
         }
 
         /* 📌 Nombre del producto */
-        .cart-item-info {
+        #cart-container .cart-item-info {
             flex-grow: 1;
             display: flex;
             align-items: center;
@@ -73,7 +74,7 @@
         }
 
         /* 🛑 Botón para eliminar productos */
-        .cart-item button {
+        #cart-container .cart-item button {
             background: red;
             color: white;
             border: none;
@@ -83,8 +84,85 @@
             font-size: 0.8rem;
         }
 
-        .cart-item button:hover {
+        #cart-container .cart-item button:hover {
             background: darkred;
+        }
+
+        /* 🌟 Estilos del nuevo modal carrito */
+        .cart-modal {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 820px !important;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 16px;
+            z-index: 1000;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* 📜 Lista de productos dentro del modal */
+        .cart-items-list {
+            list-style: none;
+            padding: 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        /* 🔹 Productos en el modal */
+        .cart-modal .cart-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            justify-content: space-between;
+        }
+
+        /* 📌 Info del producto en el modal */
+        .cart-modal .cart-item-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* 🖼 Imagen en el modal */
+        .cart-modal .cart-item-info img {
+            width: 50px;
+            height: auto;
+            border-radius: 6px;
+        }
+
+        /* 🔢 Cantidad del producto */
+        .cart-quantity {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* 🔢 Input cantidad */
+        .cart-quantity input {
+            width: 40px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* ➕➖ Botones de cantidad */
+        .cart-quantity button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            font-size: 1.4rem;
+            /* más grande el signo + y - */
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease;
         }
 
         /* 🔵 Botón de finalizar compra */
@@ -835,7 +913,8 @@
             opacity: 0;
             transition: opacity 0.3s;
             border-radius: 15px;
-            pointer-events: none; /* <- esto permite que los clics pasen al iframe */
+            pointer-events: none;
+            /* <- esto permite que los clics pasen al iframe */
         }
 
         .video-container:hover .video-overlay {
